@@ -1,4 +1,5 @@
-<div class="text-center px-2">
+<% content_for(:vcs_attribution_rendered, 'true') %>
+<div class="vcs-powered-by text-center px-2">
   <% if local_assigns[:with_counter] %>
     <% count = CompletedSubmitter.distinct.count(:submission_id) %>
     <% if count > 1 %>
@@ -9,5 +10,6 @@
   <% else %>
     <%= t('powered_by') %>
   <% end %>
-  <a href="<%= Docuseal::PRODUCT_URL %><%= local_assigns[:link_path] %>" class="underline"><%= Docuseal.product_name %></a> - <%= t('open_source_documents_software') %>
+  <a href="<%= Docuseal::PRODUCT_URL %><%= local_assigns[:link_path] %>" class="underline">DocuSeal</a> - <%= t('open_source_documents_software') %>
+  <a href="https://github.com/Valley-Christian-Startup-Incubator/docuseal" class="vcs-source-link">Source code</a>
 </div>

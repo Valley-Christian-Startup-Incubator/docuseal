@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'puma/plugin'
+require 'fileutils'
 
 # rubocop:disable Metrics
 Puma::Plugin.create do
@@ -51,7 +52,11 @@ Puma::Plugin.create do
     fork do
       Process.setsid
 
-      Dir.chdir(ENV.fetch('WORKDIR', nil)) unless ENV['WORKDIR'].to_s.empty?
+      redis_workdir = ENV['VCS_REDIS_WORKDIR'].presence || ENV['WORKDIR']
+      if redis_workdir.present?
+        FileUtils.mkdir_p(redis_workdir)
+        Dir.chdir(redis_workdir)
+      end
 
       exec('redis-server', '--requirepass', Digest::SHA1.hexdigest("redis#{ENV.fetch('SECRET_KEY_BASE', '')}"),
            '--bind', '127.0.0.1', '--port', '16379',

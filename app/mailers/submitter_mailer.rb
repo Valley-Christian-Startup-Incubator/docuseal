@@ -6,7 +6,7 @@ class SubmitterMailer < ApplicationMailer
 
   NO_REPLY_REGEXP = /no-?reply@/i
 
-  def invitation_email(submitter)
+  def invitation_email(submitter, reminder: false)
     @current_account = submitter.submission.account
     @submitter = submitter
 
@@ -25,6 +25,11 @@ class SubmitterMailer < ApplicationMailer
                @submitter.template&.preferences&.dig('request_email_subject').presence
 
     @email_config = AccountConfigs.find_for_account(@current_account, AccountConfig::SUBMITTER_INVITATION_EMAIL_KEY)
+    if reminder
+      @email_config = AccountConfigs.find_or_initialize_for_key(@current_account, AccountConfig::SUBMITTER_INVITATION_REMINDER_EMAIL_KEY)
+      @body = @submitter.template&.preferences&.dig('invitation_reminder_email_body').presence
+      @subject = @submitter.template&.preferences&.dig('invitation_reminder_email_subject').presence
+    end
     @body ||= fetch_config_email_body(@email_config, @submitter)
 
     assign_message_metadata('submitter_invitation', @submitter)

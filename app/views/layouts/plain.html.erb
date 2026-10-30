@@ -12,10 +12,11 @@
     <% end %>
     <%= stylesheet_pack_tag 'application', media: 'all', data: { turbo_track: 'dynamic' } %>
   </head>
-  <body>
+  <body class="vcs-plain">
     <main>
       <%= yield %>
     </main>
+    <%= render 'shared/vcs_footer' unless content_for?(:vcs_attribution_rendered) %>
     <turbo-frame id="modal"></turbo-frame>
     <% if flash.present? %><%= render 'shared/flash' %><% end %>
   </body>

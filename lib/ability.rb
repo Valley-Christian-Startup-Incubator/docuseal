@@ -24,5 +24,17 @@ class Ability
     can :manage, WebhookUrl, account_id: user.account_id
 
     can :manage, :mcp
+    can :manage, %i[bulk_send sms_verification custom_logo email_reminders personalization_advanced reply_to
+                    resend_all download_users event_log_download disable_decline]
+
+    unless user.role == User::ADMIN_ROLE
+      cannot :manage, [User, Account, AccountConfig, EncryptedConfig, WebhookUrl, TemplateSharing]
+      cannot :manage, :mcp
+      cannot :manage, %i[custom_logo email_reminders personalization_advanced download_users]
+      if user.role == User::VIEWER_ROLE
+        cannot :manage, [Template, TemplateFolder, Submission, Submitter, AccessToken, McpToken]
+        can :read, [Template, TemplateFolder, Submission, Submitter], account_id: user.account_id
+      end
+    end
   end
 end

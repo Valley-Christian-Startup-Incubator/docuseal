@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :account_logo, only: %i[create destroy], path: 'settings/account_logo', as: :settings_account_logo
   root 'dashboard#index'
+  get '/embed/builders/:id', to: 'embed_builders#show', as: :embed_builder
 
   get 'up' => 'rails/health#show'
   get 'manifest' => 'pwa#manifest'
@@ -24,6 +26,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api, defaults: { format: :json } do
+    resources :embed_tokens, only: :create
+    post 'templates/:format_type', to: 'template_creations#create', constraints: { format_type: /html|pdf|docx/ }
     resource :user, only: %i[show]
     resources :submitter_form_views, only: %i[create]
     resources :submitters, only: %i[index show update]
@@ -96,6 +100,7 @@ Rails.application.routes.draw do
   resources :templates, only: %i[index], controller: 'templates_dashboard'
   resources :submissions_filters, only: %i[show], param: 'name'
   resources :templates, only: %i[new create edit update show destroy] do
+    resources :bulk_imports, only: %i[create update]
     resources :clone, only: %i[new create], controller: 'templates_clone'
     resource :debug, only: %i[show], controller: 'templates_debug' if Rails.env.development?
     resources :documents, only: %i[index create], controller: 'template_documents'
@@ -172,6 +177,7 @@ Rails.application.routes.draw do
 
   resources :submitters, only: %i[] do
     resources :download, only: %i[index], controller: 'submitters_download', constraints: { submitter_id: /\d+/ }
+    resources :send_sms, only: %i[create], controller: 'submitters_send_sms'
     resources :send_email, only: %i[create], controller: 'submitters_send_email'
   end
 
@@ -185,7 +191,7 @@ Rails.application.routes.draw do
     unless Docuseal.multitenant?
       resources :storage, only: %i[index create], controller: 'storage_settings'
       resources :search_entries_reindex, only: %i[create]
-      resources :sms, only: %i[index], controller: 'sms_settings'
+      resources :sms, only: %i[index create], controller: 'sms_settings'
       resources :mcp, only: %i[index new create destroy], controller: 'mcp_settings'
     end
     if Docuseal.demo? || !Docuseal.multitenant?
@@ -221,6 +227,9 @@ Rails.application.routes.draw do
   end
 
   match '/mcp', to: 'mcp#call', via: %i[get post]
+
+  match '/s/:submitter_slug/phone_verification', to: 'submit_form_phone_verifications#create', via: :post
+  match '/s/:submitter_slug/phone_verification', to: 'submit_form_phone_verifications#update', via: :patch
 
   get '/js/:filename', to: 'embed_scripts#show', as: :embed_script
 

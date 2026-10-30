@@ -158,7 +158,7 @@ module Submissions
     )
   end
 
-  def send_signature_requests(submissions, delay: nil)
+  def send_signature_requests(submissions, delay: nil, delivery_key: nil)
     submissions.each_with_index do |submission, index|
       delay_seconds = (delay + index).seconds if delay
 
@@ -167,19 +167,19 @@ module Submissions
       if submission.template_submitters.any? { |s| s['order'] }
         first_submitters = find_first_order_submitters(submission, submitters_index)
 
-        Submitters.send_signature_requests(first_submitters, delay_seconds:)
+        Submitters.send_signature_requests(first_submitters, delay_seconds:, delivery_key:)
       elsif submission.submitters_order_preserved?
         first_submitter = find_first_submitter(submission, submitters_index)
 
         if first_submitter
           first_viewers = find_first_viewers(first_submitter, submitters_index)
 
-          Submitters.send_signature_requests([first_submitter, *first_viewers], delay_seconds:)
+          Submitters.send_signature_requests([first_submitter, *first_viewers], delay_seconds:, delivery_key:)
         elsif submission.submitters.all?(&:viewer?)
-          Submitters.send_signature_requests(submitters_index.values, delay_seconds:)
+          Submitters.send_signature_requests(submitters_index.values, delay_seconds:, delivery_key:)
         end
       else
-        Submitters.send_signature_requests(submitters_index.values, delay_seconds:)
+        Submitters.send_signature_requests(submitters_index.values, delay_seconds:, delivery_key:)
       end
     end
   end

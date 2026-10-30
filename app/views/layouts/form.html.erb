@@ -12,9 +12,10 @@
     <% end %>
     <%= stylesheet_pack_tag 'form', media: 'all', data: { turbo_track: 'dynamic' } %>
   </head>
-  <body>
+  <body class="vcs-signing">
     <main>
       <%= yield %>
     </main>
+    <%= render 'shared/vcs_footer' unless content_for?(:vcs_attribution_rendered) %>
   </body>
 </html>

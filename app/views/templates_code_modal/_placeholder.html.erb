@@ -1,17 +1,6 @@
-<% unless turbo_native_ios? %>
-  <div class="alert">
-    <%= svg_icon('info_circle', class: 'w-6 h-6') %>
-    <div>
-      <p class="font-bold">
-        <%= t('api_and_embedding') %>
-      </p>
-      <p class="text-gray-700">
-        <%= t('unlock_with_docuseal_pro') %>
-        <br>
-        <a class="link font-medium" target="_blank" href="<%= Docuseal.multitenant? ? console_redirect_index_path(redir: "#{Docuseal::CONSOLE_URL}/plans") : "#{Docuseal::CLOUD_URL}/sign_up?#{{ redir: "#{Docuseal::CONSOLE_URL}/on_premises" }.to_query}" %>" data-turbo="false">
-          <%= t('learn_more') %>
-        </a>
-      </p>
-    </div>
-  </div>
-<% end %>
+<div class="vcs-api-guidance">
+  <h3 class="font-semibold">API and embedded editor</h3>
+  <p>Create templates from HTML, PDF, or DOCX using the API. Use signed editor tokens to embed the document editor in your application.</p>
+  <p>Generate editor tokens on your server and keep API keys out of client-side code.</p>
+  <a class="link font-medium" href="https://github.com/Valley-Christian-Startup-Incubator/docuseal/blob/main/docs/VCS.md" target="_blank" rel="noopener">View integration documentation</a>
+</div>

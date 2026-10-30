@@ -1,0 +1,32 @@
+<%= render 'shared/html_title', title: 'Verify your phone number' %>
+<% content_for(:native_title, 'Phone verification') if turbo_native_app? %>
+<% phone_digits = @submitter.phone.to_s.gsub(/\D/, '') %>
+<% verification_path = "/s/#{@submitter.slug}/phone_verification" %>
+<div class="vcs-verification max-w-md mx-auto px-2 mt-12 mb-4">
+  <div class="flex items-center justify-center mb-6">
+    <%= render 'start_form/banner' %>
+  </div>
+  <div class="vcs-verification-panel">
+    <h1>Verify your phone number</h1>
+    <p class="vcs-form-description">To open this document, request a verification code for <%= phone_digits.length >= 4 ? "the phone number ending in #{phone_digits[-4, 4]}" : 'your saved phone number' %>, then enter it below.</p>
+    <p class="vcs-document-name"><%= @submitter.submission.name || @submitter.submission.template&.name %></p>
+    <% if flash[:alert].present? %>
+      <p role="alert" class="vcs-import-error mb-4"><%= flash[:alert] %></p>
+    <% end %>
+    <% if flash[:notice].present? %>
+      <p role="status" class="mb-4"><%= flash[:notice] %></p>
+    <% end %>
+    <%= form_with url: verification_path, method: :post, html: { class: 'space-y-4' } do |f| %>
+      <div class="form-control">
+        <%= f.label :one_time_code, 'Verification code', class: 'label' %>
+        <%= f.text_field :one_time_code, required: true, inputmode: 'numeric', autocomplete: 'one-time-code', pattern: '[0-9]{6}', maxlength: 6, class: 'base-input vcs-code-input', aria: { describedby: 'phone_code_help' } %>
+        <p id="phone_code_help" class="vcs-field-help">Enter the 6-digit code from your text message.</p>
+      </div>
+      <%= f.button button_title(title: 'Verify and continue', disabled_with: 'Verifying…'), class: 'base-button w-full' %>
+    <% end %>
+    <div class="vcs-resend-code">
+      <%= button_to 'Send a verification code', verification_path, method: :patch, class: 'btn btn-outline w-full' %>
+      <p class="vcs-field-help">Need a new code? Request another text message.</p>
+    </div>
+  </div>
+</div>

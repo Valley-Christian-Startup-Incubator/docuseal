@@ -7,7 +7,7 @@ module Submitters
     module_function
 
     def call(submitter, current_user, request, with_order: false)
-      pass_email_2fa?(submitter, request) &&
+      pass_phone_2fa?(submitter, request) && pass_email_2fa?(submitter, request) &&
         pass_link_2fa?(submitter, current_user, request) &&
         (!with_order || pass_submitters_order?(submitter))
     end
@@ -24,6 +24,13 @@ module Submitters
                                             key: AccountConfig::ENFORCE_SIGNING_ORDER_KEY, value: true)
 
       Submitters.current_submitter_order?(submitter)
+    end
+
+    def pass_phone_2fa?(submitter, request)
+      return false unless submitter
+      return true unless submitter.preferences['require_phone_2fa'] == true || submitter.submission.template&.preferences&.dig('require_phone_2fa') == true
+
+      request.cookie_jar.encrypted[:phone_2fa_slug] == submitter.slug
     end
 
     def pass_email_2fa?(submitter, request)

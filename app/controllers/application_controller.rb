@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   include ActiveStorage::SetCurrent
   include Pagy::Method
+  include VcsEmbedAuthentication
 
   check_authorization unless: :devise_controller?
 
@@ -46,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    Docuseal.default_url_options
+    Docuseal.default_url_options.merge(params[:embed] == '1' && (controller_name.start_with?('start_form', 'submit_form')) ? { embed: '1' } : {})
   end
 
   def impersonate_user(user)

@@ -20,7 +20,7 @@
     <% end %>
     <%= stylesheet_pack_tag 'application', media: 'all', data: { turbo_track: 'dynamic' } %>
   </head>
-  <body>
+  <body class="vcs-app">
     <% if params[:modal].present? %>
       <% modal_uri = Addressable::URI.parse(params[:modal]) %>
       <% url_params = Rails.application.routes.recognize_path(modal_uri.path, method: :get) %>
@@ -37,6 +37,7 @@
       <%= yield %>
     </main>
     <% if flash.present? %><%= render 'shared/flash' %><% end %>
+    <%= render 'shared/vcs_footer' %>
     <%= render 'shared/body_scripts' %>
   </body>
 </html>

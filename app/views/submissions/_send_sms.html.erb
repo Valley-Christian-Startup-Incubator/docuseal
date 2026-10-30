@@ -1,7 +1,19 @@
-<% unless turbo_native_ios? %>
-  <toggle-on-checked data-names="is_custom_message" class="block">
-    <div class="form-control">
-      <%= render 'sms_settings/placeholder' %>
-    </div>
-  </toggle-on-checked>
-<% end %>
+<% sms_configured = Vcs::Sms.configured?(current_account) %>
+<div class="form-control">
+  <%= f.label :send_sms, for: uuid = SecureRandom.uuid, class: 'flex items-center cursor-pointer' do %>
+    <%= f.check_box :send_sms, id: uuid, class: 'base-checkbox', disabled: !sms_configured, checked: sms_configured && local_assigns[:checked] == true %>
+    <span class="label"><%= t('send_sms') %></span>
+  <% end %>
+  <p class="vcs-field-help">
+    <% if sms_configured %>
+      Send a signing link by text to recipients with a phone number.
+    <% else %>
+      SMS is not configured.
+      <% if can?(:manage, EncryptedConfig) %>
+        <%= link_to 'Configure SMS settings', settings_sms_path, class: 'link', data: { turbo_frame: '_top' } %>
+      <% else %>
+        Contact your administrator to enable text messages.
+      <% end %>
+    <% end %>
+  </p>
+</div>

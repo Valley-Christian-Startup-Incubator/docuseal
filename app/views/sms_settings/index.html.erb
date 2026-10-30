@@ -1,9 +1,34 @@
+<%= render 'shared/html_title', title: 'SMS settings' %>
 <% content_for(:native_title, 'SMS') if turbo_native_app? %>
 <div class="flex flex-wrap space-y-4 md:flex-nowrap md:space-y-0">
   <%= render 'shared/settings_nav' %>
-  <div class="flex-grow max-w-xl mx-auto">
-    <h1 class="text-3xl md:text-4xl font-bold mb-4">SMS</h1>
-    <%= render 'placeholder' %>
+  <div class="flex-grow max-w-xl mx-auto min-w-0">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">SMS settings</h1>
+    <p class="vcs-form-description">Send signing invitations and verification codes through your school's Twilio account.</p>
+    <% value = @encrypted_config.value || {} %>
+    <% if Vcs::Sms.configured?(current_account) %>
+      <p class="vcs-configuration-status">SMS configuration saved</p>
+    <% end %>
+    <%= form_with url: settings_sms_path, scope: :sms, method: :post, html: { autocomplete: 'off', class: 'space-y-4' } do |f| %>
+      <div class="form-control">
+        <%= f.label :account_sid, 'Twilio account SID', class: 'label' %>
+        <%= f.text_field :account_sid, value: value['account_sid'], required: true, pattern: 'AC[0-9a-fA-F]{32}', spellcheck: false, autocapitalize: 'none', class: 'base-input w-full', aria: { describedby: 'sms_sid_help' } %>
+        <p id="sms_sid_help" class="vcs-field-help">The account identifier beginning with AC in your Twilio console.</p>
+      </div>
+      <div class="form-control">
+        <%= f.label :auth_token, 'Twilio auth token', class: 'label' %>
+        <%= f.password_field :auth_token, value: '', required: value['auth_token'].blank?, autocomplete: 'new-password', class: 'base-input w-full', aria: { describedby: 'sms_token_help' } %>
+        <p id="sms_token_help" class="vcs-field-help"><%= value['auth_token'].present? ? 'A token is saved. Leave this field blank to keep it, or enter a new token to replace it.' : 'Enter the auth token from your Twilio console. The saved token will not be displayed.' %></p>
+      </div>
+      <div class="form-control">
+        <%= f.label :from, 'Sending phone number', class: 'label' %>
+        <%= f.telephone_field :from, value: value['from'], required: true, pattern: '\+[1-9][0-9]{7,14}', placeholder: '+14085551234', class: 'base-input w-full', aria: { describedby: 'sms_from_help' } %>
+        <p id="sms_from_help" class="vcs-field-help">Your SMS-enabled Twilio number, including + and the country code.</p>
+      </div>
+      <div class="form-control pt-2">
+        <%= f.button button_title(title: 'Save SMS settings', disabled_with: t('saving')), class: 'base-button' %>
+      </div>
+    <% end %>
   </div>
   <div class="w-0 lg:w-52"></div>
 </div>

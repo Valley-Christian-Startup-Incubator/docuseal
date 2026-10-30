@@ -1,1 +1,9 @@
-<%= render 'submissions/bulk_send_placeholder' %>
+<%= form_with url: template_bulk_imports_path(template), multipart: true, data: { turbo: false } do |f| %>
+  <h3 class="text-xl font-semibold mb-2">Import recipients</h3>
+  <p class="mb-3">Upload a CSV or XLSX file, then review every recipient before importing. Up to 1,000 rows and 5 MB.</p>
+  <% roles = template.submitters.reject { |s| s['invite_by_uuid'].present? || s['optional_invite_by_uuid'].present? || s['invite_via_field_uuid'].present? } %>
+  <p class="text-sm mb-3">Column headings: <%= roles.size == 1 ? 'email, name, phone' : roles.flat_map { |r| ["#{r['name']}.email", "#{r['name']}.name", "#{r['name']}.phone"] }.join(', ') %>. Add field names as columns to prefill values<%= roles.size > 1 ? ' (prefix each with the role name and a period)' : '' %>. Duplicate groups and invalid rows must be corrected before import.</p>
+  <%= f.label :file, 'Recipient spreadsheet', class: 'label' %>
+  <%= f.file_field :file, accept: '.csv,.xlsx', required: true, class: 'base-input w-full' %>
+  <%= f.submit 'Review recipients', class: 'base-button mt-4' %>
+<% end %>

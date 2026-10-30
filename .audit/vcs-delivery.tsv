@@ -1,0 +1,12 @@
+ts	phase	decision	why	evidence	result
+2026-10-30T20:53:39Z	baseline	Pinned fork to installed 3.3.4 tag	Avoid an unrelated upgrade during feature work	deploy/Dockerfile.vcs	Baseline inspected
+2026-10-30T20:53:39Z	backup	Created verified production backup before changes	Preserve PostgreSQL data and document volume	valley-big-mac:Apps/docuseal/backups/20261030T204816Z/COMPLETE	Backup verified
+2026-10-30T20:53:39Z	design	Switched interface design consultation to Astra	Claude reported weekly limit	public/vcs-brand.css	Browser verification underway
+2026-10-30T20:53:39Z	review	Fixed string-key import parameter mismatch	Normalizer expects indifferent access	app/controllers/bulk_imports_controller.rb	Runtime test pending
+2026-10-30T21:00:36Z	verification	Passed 34 isolated feature checks and 26 embedding checks	Verify the input to persisted result and access boundaries	deploy/verify_features.rb; deploy/verify_embedding.rb	Passed against isolated preview
+2026-10-30T21:00:36Z	delivery	Resend accepted a synthetic multipart message and attachment	Exercise the real provider using its simulator recipient	deploy/verify_resend_live.rb; receipt 01a18e9c-a48a-7e0d-b4cb-4133b222b94b	Accepted by Resend
+2026-10-30T21:00:36Z	review	Preserved explicit import mail identity and recomputed redacted PDF hash	Independent review caught retry and audit correctness bugs	lib/action_mailer_configs_interceptor.rb; lib/vcs/field_tags.rb	Runtime checks passed
+2026-10-30T21:06:27Z	release-check	Release image passed 38 feature checks and 26 embedding checks	Test the built image rather than source alone	deploy/verify_features.rb; deploy/verify_embedding.rb; valley-big-mac:Apps/docuseal/release-check.log	Passed
+2026-10-30T21:06:27Z	autodeploy	Verified owner gate and prepared dedicated proxy	Apply Big Mac standing deployment instructions	deploy/autodeploy.md; deploy/autodeploy_test.py	Eight fixture tests passed including real Caddy continuity
+2026-10-30T21:09:10Z	correction	Independent repeated-state check found unsent recipient scan bug	Fresh success did not cover persisted mixed sent and unsent records	app/jobs/send_submitter_reminders_job.rb; PR1 review comment6533492073	Corrected predicate and added regression
+2026-10-30T21:09:10Z	verification	Forty feature checks passed after scanner and OTP endpoint fixes	Verify mixed recipient state and deny verification messages for completed forms	deploy/verify_features.rb; valley-big-mac:Apps/docuseal/release-check-final.log	Passed in isolated runtime

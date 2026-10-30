@@ -23,11 +23,13 @@ class SendSubmitterInvitationEmailJob
       if submitter.viewer?
         SubmitterMailer.invitation_view_email(submitter)
       else
-        SubmitterMailer.invitation_email(submitter)
+        SubmitterMailer.invitation_email(submitter, reminder: params['reminder'] == true)
       end
 
     Submitters::ValidateSending.call(submitter, mail)
 
+    stable_key = "#{params['delivery_key'].presence || jid}:#{submitter.id}"
+    Vcs::MailIdentity.apply(mail.message, stable_key)
     mail.deliver_now!
 
     SubmissionEvent.create!(submitter:, event_type: 'send_email')

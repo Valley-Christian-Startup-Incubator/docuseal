@@ -1,0 +1,42 @@
+FROM ruby:4.0.9-alpine AS webpack
+
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+RUN apk add --no-cache nodejs yarn git build-base && \
+    gem install shakapacker -v 9.7.0
+
+COPY ./package.json ./yarn.lock ./
+
+RUN yarn install --network-timeout 1000000
+
+COPY ./bin/shakapacker ./bin/shakapacker
+COPY ./config/webpack ./config/webpack
+COPY ./config/shakapacker.yml ./config/shakapacker.yml
+COPY ./postcss.config.js ./postcss.config.js
+COPY ./tailwind.config.js ./tailwind.config.js
+COPY ./tailwind.form.config.js ./tailwind.form.config.js
+COPY ./tailwind.dynamic.config.js ./tailwind.dynamic.config.js
+COPY ./tailwind.application.config.js ./tailwind.application.config.js
+COPY ./app/javascript ./app/javascript
+COPY ./app/views ./app/views
+
+RUN echo "gem 'shakapacker', '9.7.0'" > Gemfile && ./bin/shakapacker
+
+FROM docuseal/docuseal@sha256:2786607f1f6eb54f982a926bd78c81ee23b6545e59d1ff548bd672094760621c
+USER root
+RUN apk add --no-cache chromium
+COPY --chown=docuseal:docuseal app /app/app
+COPY --chown=docuseal:docuseal lib /app/lib
+COPY --chown=docuseal:docuseal config /app/config
+COPY --chown=docuseal:docuseal public /app/public
+COPY --from=webpack /app/public/packs /app/public/packs
+COPY --chown=docuseal:docuseal LICENSE LICENSE_ADDITIONAL_TERMS README.md /app/
+
+COPY --chown=docuseal:docuseal deploy /app/deploy
+COPY --chown=docuseal:docuseal docs /app/docs
+ARG VCS_REVISION=development
+LABEL org.opencontainers.image.source="https://github.com/Valley-Christian-Startup-Incubator/docuseal"
+LABEL org.opencontainers.image.revision=$VCS_REVISION
