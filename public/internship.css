@@ -1,0 +1,144 @@
+/* Public internship intake. Keep school artwork unmodified.
+   Desktop: 960px = 628px form + 48px gutter + 284px packet summary. */
+.internship-page {
+  --internship-navy: #003360;
+  --internship-sky: #8cd2f4;
+  --internship-gray: #a7a9ac;
+  --internship-white: #ffffff;
+  --internship-muted: #536270;
+  --internship-rule: #e0e5e9;
+  --internship-surface: #f4f6f8;
+  --internship-error: #8b2034;
+  --internship-error-ground: #fff4f5;
+  box-sizing: border-box;
+  width: min(100% - 48px, 960px);
+  margin: 0 auto;
+  padding-bottom: 40px;
+  color: var(--internship-navy);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.internship-page *,
+.internship-page *::before,
+.internship-page *::after { box-sizing: border-box; }
+body.vcs-signing:has(.internship-page) { background: #ffffff; }
+.internship-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--internship-rule);
+}
+.internship-logo { display: block; width: 210px; height: auto; }
+.internship-service { color: var(--internship-muted); font-size: 14px; }
+.internship-intro { margin: 36px 0 32px; }
+.internship-page h1 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.internship-intro > p { max-width: 660px; margin: 16px 0 0; }
+.internship-content {
+  display: grid;
+  grid-template-columns: minmax(0, 628px) minmax(0, 284px);
+  gap: 48px;
+  align-items: start;
+}
+.internship-form-region { min-width: 0; }
+.internship-required-note { margin: 0 0 24px; color: var(--internship-muted); font-size: 14px; }
+.internship-section { min-width: 0; margin: 0 0 28px; padding: 0; border: 0; }
+.internship-section legend { width: 100%; padding: 0; margin: 0 0 16px; font-size: 20px; line-height: 1.3; font-weight: 700; }
+.internship-field-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.internship-section > .internship-field + .internship-field-pair,
+.internship-section > .internship-field-pair + .internship-field { margin-top: 18px; }
+.internship-field { min-width: 0; }
+.internship-field label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; }
+.internship-optional { color: var(--internship-muted); font-weight: 400; }
+.internship-field input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--internship-gray);
+  border-radius: 4px;
+  background: var(--internship-white);
+  color: var(--internship-navy);
+  font: inherit;
+  line-height: 24px;
+  box-shadow: none;
+}
+.internship-page :is(input, button, a, [tabindex]):focus-visible {
+  outline: 2px solid var(--internship-navy);
+  outline-offset: 3px;
+}
+.internship-field input:focus { border-color: var(--internship-navy); }
+.internship-submit { padding-top: 4px; }
+.internship-submit > p { margin: 0 0 20px; font-size: 14px; }
+.internship-page .internship-button {
+  display: inline-block;
+  min-height: 48px;
+  min-width: 226px;
+  max-width: 100%;
+  padding: 12px 24px;
+  border: 1px solid var(--internship-navy);
+  border-radius: 4px;
+  background: var(--internship-navy);
+  color: var(--internship-white);
+  font: inherit;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: none;
+}
+.internship-page .internship-button:hover { background: var(--internship-white); color: var(--internship-navy); }
+.internship-page .internship-button:active { background: var(--internship-sky); color: var(--internship-navy); }
+.internship-page .internship-button:disabled { background: var(--internship-surface); border-color: var(--internship-gray); color: var(--internship-muted); cursor: wait; }
+.internship-submit-busy,
+.internship-button:disabled .internship-submit-ready { display: none; }
+.internship-button:disabled .internship-submit-busy { display: inline; }
+.internship-submit > .internship-privacy { margin: 18px 0 0; color: var(--internship-muted); }
+.internship-summary { padding: 24px; background: var(--internship-surface); }
+.internship-page h2 { margin: 0 0 12px; font-size: 16px; font-weight: 700; line-height: 1.4; }
+.internship-summary section + section { margin-top: 28px; }
+.internship-documents { margin: 0; padding-left: 18px; list-style: disc; }
+.internship-documents li { padding-left: 2px; }
+.internship-documents li + li { margin-top: 10px; }
+.internship-summary p { margin: 0; }
+.internship-summary p + p { margin-top: 16px; }
+.internship-summary :is(p, li) { font-size: 14px; }
+.internship-errors {
+  padding: 20px;
+  margin-bottom: 24px;
+  border-left: 3px solid var(--internship-error);
+  background: var(--internship-error-ground);
+  color: var(--internship-error);
+}
+.internship-errors ul { margin: 0; padding-left: 20px; list-style: disc; }
+.internship-errors li + li { margin-top: 6px; }
+.internship-errors:focus { outline: 2px solid var(--internship-navy); outline-offset: 3px; }
+.internship-page-unavailable { padding-bottom: 56px; }
+.internship-unavailable-documents { max-width: 660px; padding: 24px; background: var(--internship-surface); }
+@media (max-width: 900px) {
+  .internship-content { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .internship-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .internship-summary section + section { margin-top: 0; }
+}
+@media (max-width: 640px) {
+  .internship-page { width: calc(100% - 40px); padding-bottom: 28px; }
+  .internship-header { padding: 24px 0; }
+  .internship-logo { width: 190px; max-width: 100%; }
+  .internship-service { display: none; }
+  .internship-intro { margin: 28px 0; }
+  .internship-page h1 { font-size: 26px; line-height: 1.25; }
+  .internship-field-pair { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .internship-section { margin-bottom: 28px; }
+  .internship-page .internship-button { width: 100%; }
+  .internship-summary { display: block; padding: 20px; }
+  .internship-summary section + section { margin-top: 24px; }
+}
