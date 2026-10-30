@@ -9,10 +9,29 @@ module ActionMailerConfigsInterceptor
   def delivering_email(message)
     return message unless Rails.env.production?
 
+    if (job_id = Thread.current[:vcs_mail_job_id])
+      metadata = message.instance_variable_get(:@message_metadata) || {}
+      identity = [job_id, metadata['tag'], metadata['record_type'], metadata['record_id'], *Array(message.to), *Array(message.cc), *Array(message.bcc)].join(':')
+      Vcs::MailIdentity.apply(message, identity) unless metadata['idempotency_key'].present?
+    end
+
     if Docuseal.demo?
       message.delivery_method(:test)
 
       return message
+    end
+
+    unless Docuseal.multitenant?
+      resend_config = EncryptedConfig.order(:account_id).find_by(key: 'resend_api')
+
+      if resend_config
+        value = resend_config.value
+        from = %("#{resend_config.account.name.to_s.delete('"')}" <#{value['from_email']}>)
+        message.from = from
+        message.delivery_method(Vcs::ResendDelivery, value.merge('from_email' => from))
+
+        return message
+      end
     end
 
     if Rails.env.production? && Rails.application.config.action_mailer.delivery_method

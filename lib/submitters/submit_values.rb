@@ -259,16 +259,22 @@ module Submitters
       end
     end
 
-    def calculate_formula_value(_formula, _values, _submission)
-      0
+    def calculate_formula_value(formula, values, submission)
+      Vcs::Formula.new(formula, values:, fields: submission.fields_uuid_index,
+                       today: Time.current.in_time_zone(submission.account.timezone).to_date).call
+    rescue Vcs::Formula::Error => e
+      raise ValidationError, e.message
     end
 
-    def calculate_date_formula_value(_formula, _values, _submission)
-      nil
+    def calculate_date_formula_value(formula, values, submission)
+      value = calculate_formula_value(formula, values, submission)
+      raise ValidationError, 'Date formula must return a date' unless value.is_a?(Date)
+
+      value.iso8601
     end
 
-    def eval_text_formula_value(_formula, _values, _submission)
-      ''
+    def eval_text_formula_value(formula, values, _submission)
+      formula.gsub(/{{(.*?)}}/) { values[Regexp.last_match(1)].to_s }.first(20_000)
     end
 
     def replace_current_date_placeholders(submitter)

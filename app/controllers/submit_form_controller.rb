@@ -17,6 +17,8 @@ class SubmitFormController < ApplicationController
   def show
     submission = @submitter.submission
 
+    return render :phone_2fa unless Submitters::AuthorizedForForm.pass_phone_2fa?(@submitter, request)
+
     return render :email_2fa unless Submitters::AuthorizedForForm.pass_email_2fa?(@submitter, request)
 
     if @submitter.completed_at? || submission.completed_at?

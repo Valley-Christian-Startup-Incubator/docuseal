@@ -38,3 +38,5 @@ yarn-debug.log*
 /ee
 dump.rdb
 *.onnx
+
+/deploy/__pycache__/

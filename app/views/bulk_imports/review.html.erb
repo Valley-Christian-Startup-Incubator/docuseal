@@ -1,0 +1,17 @@
+<h1 class="text-3xl font-bold mb-3">Review recipients</h1>
+<p class="mb-4"><%= @blob.filename %> · <%= @import.rows.count { |r| r[:errors].empty? } %> recipient groups ready · <%= @import.rows.count { |r| r[:errors].any? } %> rows need attention. No invitations have been sent.</p>
+<div class="overflow-x-auto mb-5">
+  <table class="table w-full"><thead><tr><th>Row</th><th>Name</th><th>Email</th><th>Role</th><th>Result</th></tr></thead>
+    <tbody><% @import.rows.each do |row| %><% row[:submitters].each do |s| %>
+      <tr><td><%= row[:number] %></td><td><%= s['name'] %></td><td><%= s['email'] %></td><td><%= @template.submitters.find { |r| r['uuid'] == s['uuid'] }['name'] %></td><td><%= row[:errors].presence&.join('; ') || 'Ready' %></td></tr>
+    <% end %><% end %></tbody>
+  </table>
+</div>
+<% if @import.valid? %>
+  <%= form_with url: template_bulk_import_path(@template, @blob), method: :patch, data: { turbo: false } do |f| %>
+    <%= f.hidden_field :token, value: @token %>
+    <label class="flex items-center gap-2 mb-4"><%= f.check_box :send_email, disabled: !Accounts.can_send_emails?(current_account) %>Send invitation emails after import</label>
+    <%= f.submit "Import #{@import.rows.size} recipient groups", class: 'base-button' %>
+  <% end %>
+<% end %>
+<%= link_to 'Choose another file', new_template_submission_path(@template), class: 'link block mt-4', data: { turbo_frame: :modal } %>

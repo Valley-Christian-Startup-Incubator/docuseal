@@ -183,16 +183,19 @@ module Submitters
     submitter.values.except(*field_uuids)
   end
 
-  def send_signature_requests(submitters, delay_seconds: nil)
+  def send_signature_requests(submitters, delay_seconds: nil, delivery_key: nil)
     submitters.each_with_index do |submitter, index|
+      if submitter.preferences['send_sms'] == true && submitter.phone.present? && !submitter.declined_at?
+        SendSubmitterInvitationSmsJob.perform_async('submitter_id' => submitter.id)
+      end
       next if submitter.email.blank?
       next if submitter.declined_at?
       next if submitter.preferences['send_email'] == false
 
       if delay_seconds
-        SendSubmitterInvitationEmailJob.perform_in((delay_seconds + index).seconds, 'submitter_id' => submitter.id)
+        SendSubmitterInvitationEmailJob.perform_in((delay_seconds + index).seconds, 'submitter_id' => submitter.id, 'delivery_key' => delivery_key)
       else
-        SendSubmitterInvitationEmailJob.perform_async('submitter_id' => submitter.id)
+        SendSubmitterInvitationEmailJob.perform_async('submitter_id' => submitter.id, 'delivery_key' => delivery_key)
       end
     end
   end

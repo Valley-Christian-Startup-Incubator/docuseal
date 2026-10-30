@@ -1,39 +1,48 @@
 # frozen_string_literal: true
 
 class EmbedScriptsController < ActionController::Metal
-  DUMMY_SCRIPT = <<~JAVASCRIPT.freeze
-    const DummyBuilder = class extends HTMLElement {
-      connectedCallback() {
-        this.innerHTML = `
-          <div style="text-align: center; padding: 20px; font-family: Arial, sans-serif;">
-            <h2>Upgrade to Pro</h2>
-            <p>Unlock embedded components by upgrading to Pro</p>
-            <div style="margin-top: 40px;">
-              <a href="#{Docuseal::CONSOLE_URL}/on_premises" target="_blank" style="padding: 15px 25px; background-color: #222; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
-                Learn More
-              </a>
-            </div>
-          </div>
-        `;
+  EMBED_SCRIPT = <<~JAVASCRIPT.freeze
+    (() => {
+      const script = document.currentScript;
+      if (!script) return;
+      const host = new URL(script.src).origin;
+
+      function register(name, builder) {
+        if (window.customElements.get(name)) return;
+        window.customElements.define(name, class extends HTMLElement {
+          static get observedAttributes() { return ['src']; }
+          connectedCallback() { this.renderFrame(); }
+          attributeChangedCallback() { if (this.isConnected) this.renderFrame(); }
+          renderFrame() {
+            let url;
+            try { url = new URL(this.getAttribute('src'), host); } catch (_) { return; }
+            const path = builder ? /^\\/embed\\/builders\\/\\d+$/ : /^\\/[sd]\\/[^/]+$/;
+            if (!['https:', 'http:'].includes(url.protocol) || url.origin !== host || !path.test(url.pathname)) {
+              this.replaceChildren(document.createTextNode('Invalid document embed URL.'));
+              return;
+            }
+            if (!builder) url.searchParams.set('embed', '1');
+            const frame = document.createElement('iframe');
+            frame.src = url.href;
+            frame.title = this.getAttribute('title') || (builder ? 'Document template editor' : 'Sign document');
+            frame.referrerPolicy = 'no-referrer';
+            frame.allow = 'camera';
+            frame.style.cssText = 'display:block;width:100%;min-height:700px;height:100%;border:0';
+            this.style.display = 'block';
+            this.replaceChildren(frame);
+          }
+        });
       }
-    };
-
-    const DummyForm = class extends DummyBuilder {};
-
-    if (!window.customElements.get('docuseal-builder')) {
-      window.customElements.define('docuseal-builder', DummyBuilder);
-    }
-
-    if (!window.customElements.get('docuseal-form')) {
-      window.customElements.define('docuseal-form', DummyForm);
-    }
+      register('docuseal-form', false);
+      register('docuseal-builder', true);
+    })();
   JAVASCRIPT
 
   def show
     headers['Content-Type'] = 'application/javascript'
-
-    self.response_body = DUMMY_SCRIPT
-
+    headers['X-Content-Type-Options'] = 'nosniff'
+    headers['Cache-Control'] = 'public, max-age=300'
+    self.response_body = EMBED_SCRIPT
     self.status = 200
   end
 end

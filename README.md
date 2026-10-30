@@ -1,3 +1,11 @@
+# Valley Christian Sign
+
+VCS maintains this DocuSeal Community fork for [sign.valleychristianai.com](https://sign.valleychristianai.com).
+
+See [the VCS feature and deployment guide](docs/VCS.md) for spreadsheet import, roles, reminders, formulas, SMS, template APIs, embedding, and Resend email delivery. The upstream README follows below. The AGPL license and DocuSeal attribution terms remain in effect.
+
+---
+
 <h1 align="center" style="border-bottom: none">
   <div>
     <a href="https://www.docuseal.com">

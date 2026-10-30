@@ -150,7 +150,7 @@ module Accounts
     return true if Rails.env.development?
     return true if ENV['SMTP_ADDRESS'].present?
 
-    EncryptedConfig.exists?(key: EncryptedConfig::EMAIL_SMTP_KEY)
+    EncryptedConfig.exists?(key: ['resend_api', EncryptedConfig::EMAIL_SMTP_KEY])
   end
 
   def can_send_invitation_emails?(_account)

@@ -8,7 +8,7 @@ class EmailSmtpSettingsController < ApplicationController
   def index; end
 
   def create
-    if @encrypted_config.update(email_configs)
+    if @encrypted_config.update(resend_request? ? resend_configs : email_configs)
       unless Docuseal.multitenant?
         SettingsMailer.smtp_successful_setup(@encrypted_config.value['from_email'] || current_user.email).deliver_now!
       end
@@ -32,8 +32,32 @@ class EmailSmtpSettingsController < ApplicationController
   private
 
   def load_encrypted_config
-    @encrypted_config =
-      EncryptedConfig.find_or_initialize_by(account: current_account, key: EncryptedConfig::EMAIL_SMTP_KEY)
+    @resend_config = EncryptedConfig.find_or_initialize_by(account: current_account, key: 'resend_api')
+    @encrypted_config = if resend_request?
+                          @resend_config
+                        else
+                          EncryptedConfig.find_or_initialize_by(account: current_account,
+                                                                key: EncryptedConfig::EMAIL_SMTP_KEY)
+                        end
+  end
+
+  def resend_request?
+    params.key?(:resend_api)
+  end
+
+  def resend_configs
+    value = params.require(:resend_api).permit(:api_key, :from_email).to_h
+    value['api_key'] = @resend_config.value&.fetch('api_key', nil) if value['api_key'].blank?
+    value['from_email'] = value['from_email'].to_s.strip
+
+    unless value['api_key'].is_a?(String) && value['api_key'].present? && !value['api_key'].match?(/[\r\n]/)
+      raise Vcs::ResendDelivery::DeliveryError, 'Resend API key is required'
+    end
+    unless value['from_email'].match?(User::FULL_EMAIL_REGEXP)
+      raise Vcs::ResendDelivery::DeliveryError, 'A valid sender email is required'
+    end
+
+    { value: }
   end
 
   def email_configs

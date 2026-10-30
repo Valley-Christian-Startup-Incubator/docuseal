@@ -1,7 +1,8 @@
-<% unless turbo_native_ios? %>
-  <div class="mt-2 mb-1">
-    <div class="tooltip tooltip-no-touch w-full" data-tip="<%= t('unlock_with_docuseal_pro') %>">
-      <%= link_to submitter.sent_at? ? t('re_send_sms') : t('send_sms'), Docuseal.multitenant? ? console_redirect_index_path(redir: "#{Docuseal::CONSOLE_URL}/plans") : "#{Docuseal::CLOUD_URL}/sign_up?#{{ redir: "#{Docuseal::CONSOLE_URL}/on_premises" }.to_query}", class: 'btn btn-sm btn-primary text-gray-400 w-full' %>
-    </div>
-  </div>
-<% end %>
+<div class="mt-2 mb-1">
+  <% if Vcs::Sms.configured?(current_account) && submitter.phone.present? %>
+    <%= button_to submitter.sent_at? ? t('re_send_sms') : t('send_sms'), submitter_send_sms_path(submitter), method: :post, class: 'btn btn-sm btn-outline w-full' %>
+  <% else %>
+    <button type="button" class="btn btn-sm w-full" disabled aria-describedby="sms_unavailable_<%= submitter.id %>"><%= t('send_sms') %></button>
+    <p id="sms_unavailable_<%= submitter.id %>" class="vcs-field-help"><%= submitter.phone.blank? ? 'Add a phone number to send a text message.' : 'Configure SMS settings to send text messages.' %></p>
+  <% end %>
+</div>

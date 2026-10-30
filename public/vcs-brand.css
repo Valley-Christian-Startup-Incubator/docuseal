@@ -1,0 +1,361 @@
+/* Valley Christian Sign. Original school artwork is served without modification.
+   The existing DocuSeal layout and controls stay intact; these overrides do not
+   depend on Tailwind recompilation. Brand guide: navy, sky blue, gray, white. */
+:root[data-theme="docuseal"] {
+  --vcs-navy: #003360;
+  --vcs-sky: #8cd2f4;
+  --vcs-gray: #a7a9ac;
+  --vcs-ink: #003360;
+  --vcs-muted: #536270;
+  --vcs-ground: #f4f6f8;
+  --vcs-line: #e0e5e9;
+  --p: 208.125 100% 18.823529%;
+  --pf: 208 100% 15%;
+  --pc: 0 0% 100%;
+  --s: 199.615385 82.539683% 75.294118%;
+  --sf: 199 83% 65%;
+  --sc: 208.125 100% 18.823529%;
+  --a: 199.615385 82.539683% 75.294118%;
+  --ac: 208.125 100% 18.823529%;
+  --n: 208.125 100% 18.823529%;
+  --nf: 208 100% 15%;
+  --nc: 0 0% 100%;
+  --b1: 0 0% 100%;
+  --b2: 210 22% 96%;
+  --b3: 207 17% 90%;
+  --bc: 208.125 100% 18.823529%;
+  --rounded-btn: 0.375rem;
+  --rounded-box: 0.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--vcs-ground);
+  color: var(--vcs-ink);
+}
+html[data-theme="docuseal"] body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+html[data-theme="docuseal"] .btn,
+html[data-theme="docuseal"] .base-button,
+html[data-theme="docuseal"] .white-button {
+  border-radius: 6px;
+  text-transform: none;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+html[data-theme="docuseal"] .base-input,
+html[data-theme="docuseal"] .base-select,
+html[data-theme="docuseal"] .base-textarea {
+  border-color: #a7a9ac;
+  border-radius: 6px;
+}
+html[data-theme="docuseal"] :is(input, textarea)::placeholder {
+  color: var(--vcs-muted);
+  opacity: 1;
+}
+html[data-theme="docuseal"] :is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--vcs-navy);
+  outline-offset: 3px;
+}
+html[data-theme="docuseal"] .btn:disabled,
+html[data-theme="docuseal"] .base-button:disabled {
+  color: #536270;
+  background: #e5e9ec;
+  border-color: #e5e9ec;
+}
+body.vcs-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--vcs-ground);
+}
+.vcs-app > .vcs-navbar {
+  width: 100%;
+  min-height: 82px;
+  margin-bottom: 8px;
+}
+.vcs-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--vcs-navy);
+}
+.vcs-brand-logo {
+  display: block;
+  width: 168px;
+  height: auto;
+  max-width: none;
+  flex: none;
+}
+.vcs-brand-product {
+  display: block;
+  padding-left: 16px;
+  border-left: 1px solid var(--vcs-gray);
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+/* 1152px shell = 24px left + 1104px workspace + 24px right. */
+.vcs-app > main {
+  flex: 1;
+  width: calc(100% - 32px);
+  padding: 24px;
+  margin-bottom: 0;
+  background: white;
+  border: 1px solid var(--vcs-line);
+  border-radius: 8px;
+}
+.vcs-app > main h1 {
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.vcs-app table {
+  font-variant-numeric: tabular-nums;
+}
+.vcs-app:has(.vcs-login) > main {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.vcs-app .vcs-login {
+  max-width: 448px;
+  margin-top: 56px;
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--vcs-line);
+  border-radius: 8px;
+}
+.vcs-login-title {
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+.vcs-login-description {
+  margin: 0 0 24px;
+  color: var(--vcs-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.vcs-login .label {
+  font-size: 14px;
+  font-weight: 600;
+}
+.vcs-login .base-input,
+.vcs-login .base-button {
+  min-height: 48px;
+}
+.vcs-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 24px;
+  padding: 24px 16px;
+  color: var(--vcs-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.vcs-footer-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.vcs-footer a,
+.vcs-powered-by a {
+  color: var(--vcs-navy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.vcs-signing-brand {
+  display: inline-flex;
+  justify-content: center;
+  padding: 12px 16px;
+}
+.vcs-powered-by {
+  color: var(--vcs-muted);
+  font-size: 12px;
+  line-height: 1.8;
+  padding-block: 16px;
+}
+.vcs-source-link {
+  display: inline-block;
+  margin-inline-start: 12px;
+}
+/* Shared, optional building blocks for the import review page. */
+.vcs-import-summary {
+  margin-block: 12px 24px;
+  color: var(--vcs-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.vcs-import-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--vcs-line);
+  border-radius: 6px;
+}
+.vcs-import-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.vcs-import-table :is(th, td) {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--vcs-line);
+  vertical-align: top;
+}
+.vcs-import-table th {
+  color: var(--vcs-muted);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.vcs-import-table tr:last-child td { border-bottom: 0; }
+.vcs-import-error { color: #990033; }
+.vcs-import-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+@media (max-width: 640px) {
+  .vcs-brand { gap: 12px; }
+  .vcs-brand-logo { width: 130px; }
+  .vcs-brand-product { padding-left: 12px; font-size: 20px; line-height: 28px; }
+  .vcs-app > .vcs-navbar { min-height: 72px; }
+  .vcs-app > main { padding: 16px; width: calc(100% - 24px); }
+  .vcs-app > main h1 { font-size: 24px; }
+  .vcs-app .vcs-login { margin-top: 24px; padding: 24px; }
+  .vcs-footer { gap: 8px 16px; }
+  .vcs-footer > :first-child { flex-basis: 100%; text-align: center; }
+  .vcs-import-actions > * { flex: 1; }
+}
+.vcs-form-description {
+  margin-bottom: 24px;
+  color: var(--vcs-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.vcs-field-help {
+  margin-top: 6px;
+  color: var(--vcs-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.vcs-configuration-status {
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--vcs-navy);
+  background: var(--vcs-ground);
+  font-size: 14px;
+}
+.vcs-verification-panel {
+  padding: 28px;
+  border: 1px solid var(--vcs-line);
+  border-radius: 8px;
+  background: white;
+}
+.vcs-verification-panel h1 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+.vcs-document-name {
+  margin-bottom: 24px;
+  padding: 12px 0;
+  border-block: 1px solid var(--vcs-line);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.vcs-code-input {
+  text-align: center;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3em;
+}
+.vcs-resend-code { margin-top: 20px; }
+.vcs-portal {
+  max-width: 800px;
+  margin: 64px auto;
+}
+.vcs-portal-description {
+  margin-top: 12px;
+  color: var(--vcs-muted);
+  font-size: 18px;
+  line-height: 1.5;
+}
+.vcs-portal-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 48px;
+}
+.vcs-portal-options h2 { font-size: 18px; font-weight: 700; }
+.vcs-portal-options p { margin: 12px 0 24px; color: var(--vcs-muted); line-height: 1.65; }
+@media (max-width: 640px) {
+  .vcs-portal { margin: 24px 0; }
+  .vcs-portal-options { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+}
+.vcs-settings-heading { font-size: 18px; line-height: 1.4; font-weight: 700; }
+.vcs-settings-details {
+  margin-top: 32px;
+  border-top: 1px solid var(--vcs-line);
+}
+.vcs-settings-details summary {
+  padding: 20px 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.vcs-settings-details-body { padding-bottom: 8px; }
+.vcs-brand-logo.vcs-brand-logo-custom {
+  height: 44px;
+  object-fit: contain;
+  object-position: left center;
+}
+.vcs-logo-preview {
+  display: flex;
+  align-items: center;
+  min-height: 104px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--vcs-line);
+  border-radius: 6px;
+  background: white;
+}
+.vcs-logo-preview img {
+  max-width: 240px;
+  max-height: 80px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.vcs-logo-file {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--vcs-gray);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  background: white;
+}
+.vcs-logo-file::file-selector-button {
+  margin-right: 12px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 4px;
+  color: var(--vcs-navy);
+  background: var(--vcs-ground);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.vcs-api-guidance {
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--vcs-line);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.vcs-api-guidance p { margin: 10px 0; color: var(--vcs-muted); }

@@ -1,0 +1,9 @@
+<% brand_account = @submitter&.account || @template&.account || (respond_to?(:current_user) ? current_user&.account : nil) %>
+<span class="vcs-brand" aria-label="Valley Christian Sign">
+  <% if brand_account&.logo&.attached? %>
+    <%= image_tag ActiveStorage::Blob.proxy_path(brand_account.logo.blob, expires_at: 1.hour.from_now.to_i), alt: "#{brand_account.name} logo", class: 'vcs-brand-logo vcs-brand-logo-custom' %>
+  <% else %>
+    <img src="/branding/valley-christian-schools.svg" alt="Valley Christian Schools" class="vcs-brand-logo" width="288" height="75" />
+  <% end %>
+  <span class="vcs-brand-product" aria-hidden="true">Sign</span>
+</span>
