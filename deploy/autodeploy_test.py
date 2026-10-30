@@ -88,16 +88,20 @@ class TransactionTests(unittest.TestCase):
             self.d.build('c' * 40)
 
     def test_atomic_assets_retained_and_collision_refused(self):
+        builds = []
         def fixture_copy(*args):
             target = Path(args[-1])
             target.mkdir()
             (target / 'app-a1.js').write_text('old client')
-            (target / 'manifest.json').write_text('{}')
+            builds.append(1)
+            for name in ['manifest.json', 'manifest.json.gz', 'manifest.json.br']:
+                (target / name).write_text(str(len(builds)))
         with patch.object(self.d, 'docker', side_effect=fixture_copy):
             self.d.publish_assets('fixture')
             self.d.publish_assets('fixture')
         self.assertEqual((self.root / 'assets/packs/app-a1.js').read_text(), 'old client')
-        self.assertFalse((self.root / 'assets/packs/manifest.json').exists())
+        for name in ['manifest.json', 'manifest.json.gz', 'manifest.json.br']:
+            self.assertFalse((self.root / 'assets/packs' / name).exists())
         (self.root / 'assets/packs/app-a1.js').write_text('collision')
         with patch.object(self.d, 'docker', side_effect=fixture_copy), self.assertRaises(RuntimeError):
             self.d.publish_assets('fixture')

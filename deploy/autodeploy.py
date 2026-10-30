@@ -141,7 +141,7 @@ class Deployer:
                 target = self.root / 'assets' / relative
                 target.parent.mkdir(parents=True, exist_ok=True)
                 # Manifest names are mutable and served by Rails. Hashed assets are retained forever.
-                if source.suffix == '.json':
+                if source.name in {'manifest.json', 'manifest.json.gz', 'manifest.json.br'}:
                     continue
                 if target.exists():
                     if hashlib.sha256(target.read_bytes()).digest() != hashlib.sha256(source.read_bytes()).digest():
