@@ -4,7 +4,7 @@ class InternshipsController < ApplicationController
   layout 'form'
   skip_before_action :authenticate_user!
   skip_authorization_check
-  before_action :load_packet
+  before_action :load_packet, only: %i[show create]
   after_action :prevent_caching
 
   def show
@@ -31,6 +31,19 @@ class InternshipsController < ApplicationController
     @errors = ['Too many packet requests. Please wait before starting another packet.']
     prepare_token
     render :show, status: :too_many_requests
+  end
+
+  def parent_signing
+    student = Submitter.find_by!(slug: params[:student_slug])
+    unless Submitters::AuthorizedForForm.call(student, current_user, request)
+      return head :forbidden
+    end
+    parent = Vcs::InternshipPacket.parent_for(student)
+    return head :not_found unless parent
+
+    cookies.delete(:email_2fa_slug, **Submitters::StartForm::COOKIES_DEFAULTS)
+    cookies.delete(:phone_2fa_slug, **Submitters::StartForm::COOKIES_DEFAULTS)
+    redirect_to submit_form_path(parent.slug), status: :see_other
   end
 
   private

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resource :account_logo, only: %i[create destroy], path: 'settings/account_logo', as: :settings_account_logo
   get '/internship', to: 'internships#show', as: :internship
   post '/internship', to: 'internships#create'
+  post '/internship/parent-signing', to: 'internships#parent_signing', as: :internship_parent_signing
   root 'dashboard#index'
   get '/embed/builders/:id', to: 'embed_builders#show', as: :embed_builder
 

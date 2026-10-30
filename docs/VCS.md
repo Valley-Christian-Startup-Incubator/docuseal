@@ -6,7 +6,7 @@ The [modification reference](fork-changes.md) records implementation locations, 
 
 ## Internship documents
 
-`/internship` provides account-free intake for the Summer 2027 student/parent MOU, host MOU, and CDE B1-1. Each signer verifies their email. The student signs first, the parent and host sign next, and school staff finish the packet. A separate work permit issuer can have their own signing role.
+`/internship` provides account-free intake for the Summer 2027 student/parent MOU, host MOU, and CDE B1-1. Each signer verifies their email. The student signs first, the parent and host sign next, and school staff finish the packet. After the student finishes, the parent can sign on the same device with their own email verification or use the email invitation later. Production assigns both school and work permit issuer responsibilities to Benjamin Mull. Other deployments can assign a separate issuer.
 
 The [internship guide](internship.md) covers field mapping, private document storage, recipient configuration, activation, and isolated verification. Intake accepts no packets until the private configuration is enabled.
 

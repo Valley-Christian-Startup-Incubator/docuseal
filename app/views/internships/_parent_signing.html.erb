@@ -1,0 +1,12 @@
+<section aria-labelledby="parent-signing-title" class="space-y-4">
+  <h2 id="parent-signing-title" class="text-lg font-bold">Parent or guardian can sign next</h2>
+  <p>
+    They can sign on this device or later using their email invitation.
+    They'll verify their own email address before signing.
+  </p>
+  <toggle-submit class="block">
+    <%= button_to 'Parent signs now', internship_parent_signing_path,
+                  method: :post, params: { student_slug: submitter.slug },
+                  class: 'base-button w-full', form: { data: { turbo: false } } %>
+  </toggle-submit>
+</section>

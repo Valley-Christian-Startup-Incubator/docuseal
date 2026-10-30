@@ -39,11 +39,12 @@ SSO is excluded. Trusted signing certificates still require a certificate from
 a trusted certificate authority. The new APIs support the documented requests;
 they do not promise complete compatibility with proprietary upstream Pro APIs.
 
-The internship route is deployed, but production intake remains inactive pending
-the authorized work permit issuer assignment. Its blank source documents stay
-in private storage. Git contains the field blueprint and provisioning code.
-The [internship status](internship.md#deployment-status) records the activation
-prerequisites and verification results.
+The internship route supports one packet per student and an optional same-device
+parent handoff with separate email verification. The operator confirmed Benjamin
+Mull for both school and work permit issuer responsibilities. Blank source
+documents stay in private storage. Git contains the field blueprint and
+provisioning code. The [internship guide](internship.md#deployment-status)
+records the signer assignment, activation requirements, and verification results.
 
 ## Release history
 

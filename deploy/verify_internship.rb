@@ -82,8 +82,8 @@ student = roles.fetch('student')
 session.put("/s/#{student.slug}", params: { completed: 'true', authenticity_token: csrf })
 verify.call('unverified recipient cannot submit document values') { session.response.status == 422 && !student.reload.completed_at? }
 
-authenticate = lambda do |person|
-  browser = ActionDispatch::Integration::Session.new(Rails.application)
+authenticate = lambda do |person, existing_browser = nil|
+  browser = existing_browser || ActionDispatch::Integration::Session.new(Rails.application)
   browser.host! 'localhost'
   browser.https!
   browser.get("/s/#{person.slug}")
@@ -98,12 +98,16 @@ verify.call('direct authenticated request cannot sign out of order') { school_br
 student_browser, student_csrf = authenticate.call(student)
 student_browser.get("/s/#{student.slug}")
 verify.call('verified student reaches the real signing form') { student_browser.response.status == 200 && student_browser.response.body.include?('<submission-form') }
+verify.call('student completion redirects to the parent handoff page') { student_browser.response.body.include?("data-completed-redirect-url=\"/s/#{student.slug}/completed\"") }
+student_browser.post('/internship/parent-signing', params: { student_slug: student.slug, authenticity_token: student_csrf })
+verify.call('parent handoff is unavailable before student completion') { student_browser.response.status == 404 }
 foreign_field = template.fields.find { |field| field['submitter_uuid'] == roles.fetch('school').uuid && !field['readonly'] }
 student_browser.put("/s/#{student.slug}", params: { values: { foreign_field['uuid'] => 'Forged' }, authenticity_token: student_csrf })
 verify.call('student cannot fill a school field') { student_browser.response.status == 422 && !student.reload.values.key?(foreign_field['uuid']) }
 
+handoff_browser = nil
 roles.each do |kind, person|
-  browser, csrf_token = authenticate.call(person)
+  browser, csrf_token = authenticate.call(person, kind == 'parent' ? handoff_browser : nil)
   signature = Vips::Image.text("Synthetic #{kind}", font: 'sans 28').pngsave_buffer
   person.attachments.attach(io: StringIO.new(signature), filename: 'synthetic-signature.png', content_type: 'image/png')
   signature_uuid = person.attachments.reload.last.uuid
@@ -126,8 +130,27 @@ roles.each do |kind, person|
   invited_ids = SendSubmitterInvitationEmailJob.jobs.map { |job| job['args'].first['submitter_id'] }
   if kind == 'student'
     verify.call('student completion invites parent and host together') { roles.values_at('parent', 'host').all? { |p| invited_ids.include?(p.id) } && !invited_ids.include?(roles.fetch('school').id) }
+    browser.get("/s/#{person.slug}/completed")
+    verify.call('completed student sees a parent signing choice') { browser.response.status == 200 && browser.response.body.include?('Parent signs now') && !browser.response.body.include?(roles.fetch('parent').slug) }
+    session.get("/s/#{person.slug}")
+    unverified_csrf = Nokogiri::HTML(session.response.body).at_css('meta[name="csrf-token"]')['content']
+    session.post('/internship/parent-signing', params: { student_slug: person.slug, authenticity_token: unverified_csrf })
+    verify.call('unverified browser cannot obtain the parent link') { session.response.status == 403 }
+    browser.post('/internship/parent-signing', params: { student_slug: person.slug })
+    verify.call('parent handoff requires CSRF protection') { browser.response.status == 422 }
+    browser.post('/internship/parent-signing', params: { student_slug: person.slug, authenticity_token: csrf_token,
+                                                       parent_slug: roles.fetch('host').slug })
+    verify.call('handoff derives the parent from the same packet') { browser.response.status == 303 && URI(browser.response.location).path == "/s/#{roles.fetch('parent').slug}" }
+    browser.get(URI(browser.response.location).request_uri)
+    verify.call('same-device parent must verify their own email') { browser.response.status == 200 && browser.response.body.include?('email_2fa') && !browser.response.body.include?('<submission-form') }
+    browser.put("/s/#{roles.fetch('parent').slug}", params: { completed: 'true', authenticity_token: csrf_token })
+    verify.call('student verification cannot sign for the parent') { browser.response.status == 422 && !roles.fetch('parent').reload.completed_at? }
+    handoff_browser = browser
   elsif kind == 'parent'
     verify.call('school waits for the host as well as the parent') { !invited_ids.include?(roles.fetch('school').id) }
+    verify.call('completed parent is no longer offered as a handoff') { Vcs::InternshipPacket.parent_for(student.reload).nil? }
+    browser.get("/s/#{person.slug}/completed")
+    verify.call('parent completion does not offer another parent handoff') { browser.response.status == 200 && !browser.response.body.include?('Parent signs now') }
   end
 end
 verify.call('all signatures complete the submission') { submission.reload.completed_at? }

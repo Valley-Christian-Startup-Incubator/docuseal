@@ -1,4 +1,5 @@
 <% completed_at = @submitter.completed_at || @submitter.submission.completed_at %>
+<% parent_signing = Vcs::InternshipPacket.parent_for(@submitter).present? %>
 <div class="max-w-md mx-auto px-2 mt-12 mb-4">
   <div class="space-y-6 mx-auto">
     <div class="space-y-6">
@@ -19,6 +20,9 @@
         </div>
       </div>
     </div>
+    <% if parent_signing %>
+      <%= render 'internships/parent_signing', submitter: @submitter %>
+    <% end %>
     <div>
       <% if (Docuseal.multitenant? || Accounts.can_send_emails?(@submitter.account)) && @submitter.email.present? %>
         <toggle-submit>
@@ -31,7 +35,7 @@
         <% end %>
       <% end %>
       <% if completed_at > 30.minutes.ago || (current_user && current_user.account.submitters.exists?(id: @submitter.id)) %>
-        <download-button role="button" tabindex="0" aria-label="<%= t('download_documents') %>" data-src="<%= submit_form_documents_path(@submitter.slug) %>" class="base-button w-full">
+        <download-button role="button" tabindex="0" aria-label="<%= t('download_documents') %>" data-src="<%= submit_form_documents_path(@submitter.slug) %>" class="<%= parent_signing ? 'white-button' : 'base-button' %> w-full">
           <span class="flex items-center justify-center space-x-2" data-target="download-button.defaultButton">
             <%= svg_icon('download', class: 'w-6 h-6') %>
             <span><%= t('download_documents') %></span>

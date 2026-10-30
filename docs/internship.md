@@ -2,17 +2,18 @@
 
 ## Deployment status
 
-As of October 30, 2026, [PR #3](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/3)
-is deployed at `https://sign.valleychristianai.com/internship`. Production shows
-the setup notice and does not accept packets. The authorized work permit issuer
-assignment is pending. The original documents and recipient configuration have
-not been provisioned as an active production packet.
+The portal is at `https://sign.valleychristianai.com/internship`.
+The initial implementation is in [PR #3](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/3).
+On October 30, 2026, the operator confirmed that Benjamin Mull handles both the
+MOU school countersignatures and the authorized work permit issuer section.
+Production provisioning assigns both responsibilities to him in one signing role.
 
 The two MOUs name Benjamin Mull as the school representative. His work email
 is listed on the [official VCS contact page](https://www.vcs.net/8thgradecountdown).
 The work permit has a separate section marked "For authorized work permit issuer
-use ONLY". Its signer must be assigned before activation, including confirmation
-when the same person handles both school and issuer responsibilities.
+use ONLY". The school representative and issuer are separate responsibilities,
+even when one person performs both. Intake accepts packets only when its private
+configuration is enabled. Otherwise the public page shows a setup notice.
 
 ## Signing behavior
 
@@ -20,6 +21,17 @@ when the same person handles both school and issuer responsibilities.
 student verifies their email and signs first. Parent and host receive separate
 private links next; school and any separate work permit issuer sign last.
 Corrected names in the document update the corresponding recipient name.
+
+After signing, the student can choose **Parent signs now** and pass the same
+device to their parent or guardian. The parent verifies their own email before
+viewing and signing their sections. The normal email invitation remains available
+for signing later. The handoff clears the student's verification cookies and
+does not grant access to the parent's form.
+
+The handoff requires a completed, verified student in an active internship packet.
+The server selects that packet's pending parent. A visitor cannot select a parent
+from another packet or use the handoff for school or host signing. The option
+disappears when the parent finishes or declines.
 
 The packet combines the student/parent MOU, host MOU, and CDE B1-1, preserving
 the supplied document text. The field blueprint has 58 fields across six pages.
@@ -64,11 +76,15 @@ the three signed PDFs plus audit trail. `VCS_INTERNSHIP_OUTPUT_DIR` optionally
 saves synthetic output PDFs for placement review. Use HTTPS in browser tests
 because production verification cookies are secure.
 
-Release verification passed 36 checks with the school representative also acting
-as issuer, and 38 checks with a separate issuer. Both configurations produced
+Initial release verification passed 36 checks with the school representative also
+acting as issuer, and 38 checks with a separate issuer. Both configurations produced
 three signed PDFs totaling six pages and an audit trail. Independent Chromium
 verification covered intake, validation, email OTP, and the real signing form.
 These checks used synthetic contacts and fake email jobs in isolated databases.
+
+The same-device handoff adds checks for CSRF, student verification, completion
+eligibility, parent selection, and the parent's own OTP. The expanded suite
+passes 46 checks with the school representative also acting as issuer.
 
 ## Implementation
 
@@ -77,6 +93,7 @@ These checks used synthetic contacts and fake email jobs in isolated databases.
 | Public GET and POST, validation responses, privacy headers | [InternshipsController](../app/controllers/internships_controller.rb) |
 | Session-bound start tokens, replay protection, contact routing, prefill, name detection | [Vcs::InternshipPacket](../lib/vcs/internship_packet.rb) |
 | Intake and setup notice | [Views](../app/views/internships), [stylesheet](../public/internship.css) |
+| Same-device parent handoff | [Handoff section](../app/views/internships/_parent_signing.html.erb), [completion page](../app/views/submit_form/completed.html.erb) |
 | Document hashes, role ownership, field positions | [Field blueprint](../deploy/internship_blueprint.json) |
 | Private template creation and activation | [Provisioning script](../deploy/provision_internship.rb) |
 | HTTP signing-order enforcement | [SubmitFormController](../app/controllers/submit_form_controller.rb) |
