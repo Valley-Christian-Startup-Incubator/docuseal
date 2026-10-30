@@ -2,6 +2,14 @@
 
 This fork starts from DocuSeal Community 3.3.4. It adds recipient spreadsheet import, user roles, scheduled email reminders, formulas, conditional-field controls, SMS invitations, phone verification, template creation APIs, and embedded editors. VCS branding uses the September 2026 brand guide. DocuSeal attribution remains in interactive interfaces.
 
+The [modification reference](fork-changes.md) records implementation locations, release history, and configuration limits.
+
+## Internship documents
+
+`/internship` provides account-free intake for the Summer 2027 student/parent MOU, host MOU, and CDE B1-1. Each signer verifies their email. The student signs first, the parent and host sign next, and school staff finish the packet. A separate work permit issuer can have their own signing role.
+
+The [internship guide](internship.md) covers field mapping, private document storage, recipient configuration, activation, and isolated verification. Intake accepts no packets until the private configuration is enabled.
+
 ## Recipient spreadsheets
 
 Choose **Upload list**, upload CSV or XLSX, and review the rows. Confirm the import to create submissions. Email delivery is an explicit choice at confirmation.
