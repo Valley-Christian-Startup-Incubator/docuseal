@@ -59,7 +59,7 @@ class TransactionTests(unittest.TestCase):
         self.d.config['public_health_url'] = 'http://fixture.invalid/up'
         with patch.object(self.d, 'app_check'), patch.object(self.d, 'publish_assets'), \
              patch.object(self.d, 'probe'), patch.object(self.d, 'switch') as switch, \
-             patch.object(m.urllib.request, 'urlopen', side_effect=RuntimeError('public failure')):
+             patch.object(self.d, 'run', side_effect=RuntimeError('public failure')):
             with self.assertRaises(RuntimeError):
                 self.d.rollout(self.release)
         self.assertEqual([x.args[0] for x in switch.call_args_list], [self.release, original])

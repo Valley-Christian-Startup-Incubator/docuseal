@@ -247,9 +247,13 @@ class Deployer:
             public = self.config.get('public_health_url')
             if not public:
                 raise RuntimeError('public_health_url is required before cutover')
-            with urllib.request.urlopen(public, timeout=15) as response:
-                if response.status != 200:
-                    raise RuntimeError('Public readiness failed')
+            # The public Cloudflare route accepts curl's established client profile;
+            # Python urllib is denied by its bot rule even for healthy releases.
+            response = self.run(['/usr/bin/curl', '--fail', '--silent', '--show-error',
+                                 '--max-time', '15', '--write-out', '\n%{http_code}', public],
+                                timeout=20)
+            if response.rsplit('\n', 1)[-1] != '200':
+                raise RuntimeError('Public readiness failed')
             self.state['previous'] = old
             self.state['active'] = release
             self.state.pop('failed_sha', None)
