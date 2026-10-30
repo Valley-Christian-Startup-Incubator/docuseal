@@ -63,6 +63,7 @@ module Submitters
           SubmissionEvents.create_with_tracking_data(submitter, 'complete_form', request)
         end
 
+        Vcs::InternshipPacket.assign_signer_name(submitter)
         submitter.save!
       end
 

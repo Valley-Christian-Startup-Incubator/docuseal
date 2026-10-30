@@ -1,0 +1,1257 @@
+{
+  "documents": [
+    {
+      "slot": "student",
+      "name": "Student and Parent or Guardian MOU",
+      "filename": "student.pdf",
+      "sha256": "fba46871a54a6bf5bbf06f8d829ebe9419e9465fa685759e273bb2eb8662538b"
+    },
+    {
+      "slot": "host",
+      "name": "Host MOU",
+      "filename": "host.pdf",
+      "sha256": "7e957fbbd0b2052de70f9942f30d3fa298515647af6f0092c91cbaadda586f69"
+    },
+    {
+      "slot": "cde",
+      "name": "Statement of Intent to Employ a Minor",
+      "filename": "CDE-Form-B1-1-Statement-of-Intent-to-Employ-Minor.pdf",
+      "sha256": "cadd07adc224e09c34cdd5d62dc2912f5477294cd1a28bffeae8728335654f2f"
+    }
+  ],
+  "fields": [
+    {
+      "key": "student_name",
+      "name": "Student full name",
+      "role": "student",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "vcs_identity": "name",
+        "vcs_intake_key": "student_name"
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.2163899734640523,
+          "y": 0.3056449512878787,
+          "w": 0.3633235333006537,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.17045454545454544,
+          "w": 0.369281045751634,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "student_signature",
+      "name": "Student signature",
+      "role": "student",
+      "type": "signature",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.24538685867647062,
+          "y": 0.3342420977525252,
+          "w": 0.3233387245424838,
+          "h": 0.022727272727272728
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.6274509803921569,
+          "y": 0.23863636363636365,
+          "w": 0.3104575163398693,
+          "h": 0.021464646464646464
+        }
+      ]
+    },
+    {
+      "key": "student_date",
+      "name": "Student signature date",
+      "role": "student",
+      "type": "date",
+      "required": true,
+      "preferences": {
+        "font_size": 10,
+        "format": "MM/DD/YYYY"
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.13945695447712417,
+          "y": 0.36283919371212126,
+          "w": 0.43329694862745116,
+          "h": 0.01893939393939394
+        }
+      ],
+      "default_value": "{{date}}",
+      "readonly": true
+    },
+    {
+      "key": "parent_name",
+      "name": "Parent or guardian full name",
+      "role": "parent",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "vcs_identity": "name",
+        "vcs_intake_key": "parent_name"
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.28631950705882353,
+          "y": 0.4200334613888889,
+          "w": 0.29335011797385635,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.41919191919191917,
+          "w": 0.38562091503267976,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "parent_signature",
+      "name": "Parent or guardian signature",
+      "role": "parent",
+      "type": "signature",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.31531639227124186,
+          "y": 0.44863060785353537,
+          "w": 0.2533653092156864,
+          "h": 0.022727272727272728
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.4738562091503268,
+          "y": 0.4166666666666667,
+          "w": 0.2581699346405229,
+          "h": 0.021464646464646464
+        }
+      ]
+    },
+    {
+      "key": "parent_date",
+      "name": "Parent or guardian signature date",
+      "role": "parent",
+      "type": "date",
+      "required": true,
+      "preferences": {
+        "font_size": 10,
+        "format": "MM/DD/YYYY"
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.13945695447712417,
+          "y": 0.47722770381313134,
+          "w": 0.43329694862745116,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.7679738562091504,
+          "y": 0.41919191919191917,
+          "w": 0.16993464052287582,
+          "h": 0.017676767676767676
+        }
+      ],
+      "default_value": "{{date}}",
+      "readonly": true
+    },
+    {
+      "key": "host_organization",
+      "name": "Host organization",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "vcs_intake_key": "host_organization"
+      },
+      "areas": [
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.24535175321895425,
+          "y": 0.3930750522979798,
+          "w": 0.3233387245424838,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.47853535353535354,
+          "w": 0.34967320261437906,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "host_name",
+      "name": "Host full name",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "vcs_identity": "name",
+        "vcs_intake_key": "host_name"
+      },
+      "areas": [
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.1983722357026144,
+          "y": 0.45026929472222227,
+          "w": 0.2426578280686275,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.6767676767676768,
+          "w": 0.3464052287581699,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "host_title",
+      "name": "Host signer title",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "vcs_intake_key": "host_title"
+      },
+      "areas": [
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.44849645848104586,
+          "y": 0.45026929472222227,
+          "w": 0.12319551271176472,
+          "h": 0.01893939393939394
+        }
+      ]
+    },
+    {
+      "key": "host_signature",
+      "name": "Host employer signature",
+      "role": "host",
+      "type": "signature",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.2693549254738562,
+          "y": 0.4216721482575758,
+          "w": 0.3033463201633988,
+          "h": 0.022727272727272728
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.4591503267973856,
+          "y": 0.6742424242424242,
+          "w": 0.272875816993464,
+          "h": 0.021464646464646464
+        }
+      ]
+    },
+    {
+      "key": "host_date",
+      "name": "Host signature date",
+      "role": "host",
+      "type": "date",
+      "required": true,
+      "preferences": {
+        "font_size": 10,
+        "format": "MM/DD/YYYY"
+      },
+      "areas": [
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.13945695447712417,
+          "y": 0.47886642856060607,
+          "w": 0.43329694862745116,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.7679738562091504,
+          "y": 0.6767676767676768,
+          "w": 0.16993464052287582,
+          "h": 0.017676767676767676
+        }
+      ],
+      "default_value": "{{date}}",
+      "readonly": true
+    },
+    {
+      "key": "school_signature",
+      "name": "School representative signature",
+      "role": "school",
+      "type": "signature",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.1784324891503268,
+          "y": 0.5680696230050506,
+          "w": 0.40330834205882354,
+          "h": 0.022727272727272728
+        },
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.1784324891503268,
+          "y": 0.5697083098737374,
+          "w": 0.40330834205882354,
+          "h": 0.022727272727272728
+        }
+      ]
+    },
+    {
+      "key": "school_date",
+      "name": "School representative signature date",
+      "role": "school",
+      "type": "date",
+      "required": true,
+      "preferences": {
+        "font_size": 10,
+        "format": "MM/DD/YYYY"
+      },
+      "areas": [
+        {
+          "document": "student",
+          "page": 1,
+          "x": 0.13945695447712417,
+          "y": 0.5966667442171717,
+          "w": 0.43329694862745116,
+          "h": 0.01893939393939394
+        },
+        {
+          "document": "host",
+          "page": 1,
+          "x": 0.13945695447712417,
+          "y": 0.5983054437121212,
+          "w": 0.43329694862745116,
+          "h": 0.01893939393939394
+        }
+      ],
+      "default_value": "{{date}}",
+      "readonly": true
+    },
+    {
+      "key": "home_phone",
+      "name": "Home phone",
+      "role": "student",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.4591503267973856,
+          "y": 0.17045454545454544,
+          "w": 0.22058823529411764,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "grade",
+      "name": "Student grade",
+      "role": "student",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.7238562091503268,
+          "y": 0.17045454545454544,
+          "w": 0.21405228758169934,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "home_address",
+      "name": "Home address",
+      "role": "student",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.20454545454545456,
+          "w": 0.36764705882352944,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "home_city",
+      "name": "Home city",
+      "role": "student",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.4591503267973856,
+          "y": 0.20454545454545456,
+          "w": 0.22058823529411764,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "home_zip",
+      "name": "Home ZIP code",
+      "role": "student",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.7238562091503268,
+          "y": 0.20454545454545456,
+          "w": 0.21405228758169934,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "birth_date",
+      "name": "Birth date",
+      "role": "student",
+      "type": "date",
+      "required": true,
+      "preferences": {
+        "font_size": 10,
+        "format": "MM/DD/YYYY"
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.24116161616161616,
+          "w": 0.19607843137254902,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "social_security_number",
+      "name": "Social Security Number",
+      "role": "student",
+      "type": "text",
+      "required": false,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.28921568627450983,
+          "y": 0.24116161616161616,
+          "w": 0.2173202614379085,
+          "h": 0.017676767676767676
+        }
+      ],
+      "description": "Enter this only if your school coordinator has asked you to provide it through this form."
+    },
+    {
+      "key": "age",
+      "name": "Student age",
+      "role": "student",
+      "type": "number",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5343137254901961,
+          "y": 0.24116161616161616,
+          "w": 0.07026143790849673,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "school_name",
+      "name": "School name",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.2916666666666667,
+          "w": 0.2777777777777778,
+          "h": 0.017676767676767676
+        }
+      ],
+      "default_value": "Valley Christian High School"
+    },
+    {
+      "key": "school_phone",
+      "name": "School phone",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.38562091503267976,
+          "y": 0.2916666666666667,
+          "w": 0.16993464052287582,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "school_address",
+      "name": "School address",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.32575757575757575,
+          "w": 0.2777777777777778,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "school_city",
+      "name": "School city",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.38562091503267976,
+          "y": 0.32575757575757575,
+          "w": 0.16993464052287582,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "school_zip",
+      "name": "School ZIP code",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5915032679738562,
+          "y": 0.32575757575757575,
+          "w": 0.18137254901960784,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "business_phone",
+      "name": "Business phone",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.45588235294117646,
+          "y": 0.47853535353535354,
+          "w": 0.18790849673202614,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "supervisor_name",
+      "name": "Supervisor full name",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.6797385620915033,
+          "y": 0.47853535353535354,
+          "w": 0.2581699346405229,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "business_address",
+      "name": "Business address",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06209150326797386,
+          "y": 0.5126262626262627,
+          "w": 0.3480392156862745,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "business_city",
+      "name": "Business city",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.45588235294117646,
+          "y": 0.5126262626262627,
+          "w": 0.27941176470588236,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "business_zip",
+      "name": "Business ZIP code",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.7679738562091504,
+          "y": 0.5126262626262627,
+          "w": 0.16993464052287582,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "hours_day",
+      "name": "Maximum expected work hours per day",
+      "role": "host",
+      "type": "number",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.3790849673202614,
+          "y": 0.5429292929292929,
+          "w": 0.0718954248366013,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "hours_week",
+      "name": "Maximum expected work hours per week",
+      "role": "host",
+      "type": "number",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5637254901960784,
+          "y": 0.5429292929292929,
+          "w": 0.06862745098039216,
+          "h": 0.016414141414141416
+        }
+      ]
+    },
+    {
+      "key": "work_description",
+      "name": "Nature of work to be performed",
+      "role": "host",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "font_size": 9,
+        "valign": "top"
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.3545751633986928,
+          "y": 0.5631313131313131,
+          "w": 0.5833333333333334,
+          "h": 0.036616161616161616
+        }
+      ]
+    },
+    {
+      "key": "in_session_monday",
+      "name": "Monday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06143790849673203,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_tuesday",
+      "name": "Tuesday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.11209150326797385,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_wednesday",
+      "name": "Wednesday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.1673202614379085,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_thursday",
+      "name": "Thursday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.22238562091503267,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_friday",
+      "name": "Friday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.27761437908496733,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_saturday",
+      "name": "Saturday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.3326797385620915,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_sunday",
+      "name": "Sunday maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.3915032679738562,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "in_session_total",
+      "name": "Total maximum hours - school in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.4467320261437908,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_monday",
+      "name": "Monday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5062091503267974,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_tuesday",
+      "name": "Tuesday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5645424836601307,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_wednesday",
+      "name": "Wednesday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.6230392156862745,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_thursday",
+      "name": "Thursday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.6766339869281046,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_friday",
+      "name": "Friday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.7269607843137255,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_saturday",
+      "name": "Saturday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.782516339869281,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_sunday",
+      "name": "Sunday maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.8382352941176471,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "not_in_session_total",
+      "name": "Total maximum hours - school not in session",
+      "role": "issuer",
+      "type": "number",
+      "required": false,
+      "preferences": {
+        "font_size": 8
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.8973856209150327,
+          "y": 0.7588383838383839,
+          "w": 0.03758169934640523,
+          "h": 0.013888888888888888
+        }
+      ]
+    },
+    {
+      "key": "age_evidence",
+      "name": "Proof of minor\u2019s age - evidence type",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {},
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06862745098039216,
+          "y": 0.7967171717171717,
+          "w": 0.3741830065359477,
+          "h": 0.017676767676767676
+        }
+      ]
+    },
+    {
+      "key": "issuer_name",
+      "name": "Verifying authority name and title",
+      "role": "issuer",
+      "type": "text",
+      "required": true,
+      "preferences": {
+        "vcs_identity": "name"
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06862745098039216,
+          "y": 0.8396464646464646,
+          "w": 0.3741830065359477,
+          "h": 0.020202020202020204
+        }
+      ]
+    },
+    {
+      "key": "issuer_signature",
+      "name": "Verifying authority signature",
+      "role": "issuer",
+      "type": "signature",
+      "required": true,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.06862745098039216,
+          "y": 0.8838383838383839,
+          "w": 0.3741830065359477,
+          "h": 0.020202020202020204
+        }
+      ]
+    },
+    {
+      "key": "full_time",
+      "name": "Permit type - Full-time",
+      "role": "issuer",
+      "type": "checkbox",
+      "required": false,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5218954248366012,
+          "y": 0.828030303030303,
+          "w": 0.016339869281045753,
+          "h": 0.012626262626262626
+        }
+      ]
+    },
+    {
+      "key": "restricted",
+      "name": "Permit type - Restricted",
+      "role": "issuer",
+      "type": "checkbox",
+      "required": false,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5218954248366012,
+          "y": 0.8531565656565657,
+          "w": 0.016339869281045753,
+          "h": 0.012626262626262626
+        }
+      ]
+    },
+    {
+      "key": "general",
+      "name": "Permit type - General",
+      "role": "issuer",
+      "type": "checkbox",
+      "required": false,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.5218954248366012,
+          "y": 0.8785353535353535,
+          "w": 0.016339869281045753,
+          "h": 0.012626262626262626
+        }
+      ]
+    },
+    {
+      "key": "work_experience",
+      "name": "Permit type - Work Experience Education, Vocational Education, or Personal Attendant",
+      "role": "issuer",
+      "type": "checkbox",
+      "required": false,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.722875816993464,
+          "y": 0.8135101010101009,
+          "w": 0.016339869281045753,
+          "h": 0.012626262626262626
+        }
+      ]
+    },
+    {
+      "key": "workability",
+      "name": "Permit type - Workability",
+      "role": "issuer",
+      "type": "checkbox",
+      "required": false,
+      "preferences": {
+        "font_size": 10
+      },
+      "areas": [
+        {
+          "document": "cde",
+          "page": 0,
+          "x": 0.722875816993464,
+          "y": 0.8647727272727272,
+          "w": 0.016339869281045753,
+          "h": 0.012626262626262626
+        }
+      ]
+    }
+  ]
+}

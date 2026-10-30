@@ -1,0 +1,115 @@
+<% content_for :html_title, 'Summer 2027 internship documents | Valley Christian Schools' %>
+<% if @available == false %>
+  <%= render template: 'internships/unavailable' %>
+<% else %>
+  <link rel="stylesheet" href="/internship.css" data-turbo-track="reload">
+  <div class="internship-page">
+    <header class="internship-header">
+      <img src="/branding/valley-christian-schools.svg" alt="Valley Christian Schools" width="288" height="75" class="internship-logo">
+      <span class="internship-service">Valley Christian Sign</span>
+    </header>
+
+    <div class="internship-intro">
+      <h1>Summer 2027 internship documents</h1>
+      <p>Start one signing packet for your internship. No account is required, and each person signs their own sections.</p>
+    </div>
+
+    <div class="internship-content">
+      <div class="internship-form-region">
+        <% if @errors.present? %>
+          <div id="internship-errors" class="internship-errors" role="alert" tabindex="-1" autofocus aria-labelledby="internship-errors-title">
+            <h2 id="internship-errors-title">Please review your details</h2>
+            <ul>
+              <% @errors.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <p class="internship-required-note">All fields are required unless marked optional.</p>
+        <%= form_with url: internship_path, scope: :intake, method: :post, local: true, data: { turbo: false }, html: { class: 'internship-form' } do |form| %>
+          <%= hidden_field_tag :form_token, @form_token %>
+          <fieldset class="internship-section">
+            <legend>Student</legend>
+            <div class="internship-field-pair">
+              <div class="internship-field">
+                <%= form.label :student_name, 'Student full name' %>
+                <%= form.text_field :student_name, value: @intake&.dig('student_name'), required: true, autocomplete: 'section-student name' %>
+              </div>
+              <div class="internship-field">
+                <%= form.label :student_email, 'Student email' %>
+                <%= form.email_field :student_email, value: @intake&.dig('student_email'), required: true, autocomplete: 'section-student email', autocapitalize: 'none', spellcheck: false %>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="internship-section">
+            <legend>Parent or guardian</legend>
+            <div class="internship-field-pair">
+              <div class="internship-field">
+                <%= form.label :parent_name, 'Parent or guardian full name' %>
+                <%= form.text_field :parent_name, value: @intake&.dig('parent_name'), required: true, autocomplete: 'section-parent name' %>
+              </div>
+              <div class="internship-field">
+                <%= form.label :parent_email, 'Parent or guardian email' %>
+                <%= form.email_field :parent_email, value: @intake&.dig('parent_email'), required: true, autocomplete: 'section-parent email', autocapitalize: 'none', spellcheck: false %>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="internship-section">
+            <legend>Host organization</legend>
+            <div class="internship-field">
+              <%= form.label :host_organization, 'Organization name' %>
+              <%= form.text_field :host_organization, value: @intake&.dig('host_organization'), required: true, autocomplete: 'section-host organization' %>
+            </div>
+            <div class="internship-field-pair">
+              <div class="internship-field">
+                <%= form.label :host_name, 'Host signer full name' %>
+                <%= form.text_field :host_name, value: @intake&.dig('host_name'), required: true, autocomplete: 'section-host name' %>
+              </div>
+              <div class="internship-field">
+                <%= form.label :host_email, 'Host signer email' %>
+                <%= form.email_field :host_email, value: @intake&.dig('host_email'), required: true, autocomplete: 'section-host email', autocapitalize: 'none', spellcheck: false %>
+              </div>
+            </div>
+            <div class="internship-field">
+              <%= form.label :host_title do %>
+                Host signer title <span class="internship-optional">(optional)</span>
+              <% end %>
+              <%= form.text_field :host_title, value: @intake&.dig('host_title'), autocomplete: 'section-host organization-title' %>
+            </div>
+          </fieldset>
+
+          <div class="internship-submit">
+            <p>Use email addresses that each signer can access. Signing links will be sent to the addresses you enter.</p>
+            <toggle-submit>
+              <%= form.button type: 'submit', class: 'internship-button' do %>
+                <span class="internship-submit-ready">Start my packet</span>
+                <span class="internship-submit-busy">Starting your packet…</span>
+              <% end %>
+            </toggle-submit>
+            <p class="internship-privacy">Your details are used to prepare this signing packet. Completed documents are private.</p>
+          </div>
+        <% end %>
+      </div>
+
+      <aside class="internship-summary" aria-label="About your signing packet">
+        <section aria-labelledby="internship-documents-title">
+          <h2 id="internship-documents-title">Your packet includes</h2>
+          <ul class="internship-documents">
+            <li>Student &amp; Parent/Guardian MOU</li>
+            <li>Host MOU</li>
+            <li>Statement of Intent to Employ a Minor</li>
+          </ul>
+        </section>
+        <section aria-labelledby="internship-next-title">
+          <h2 id="internship-next-title">What happens next</h2>
+          <p>You’ll sign first. Your parent or guardian, host representative, and school will then receive private signing links by email.</p>
+          <p>You’ll enter sensitive employment details inside your personal signing form.</p>
+        </section>
+      </aside>
+    </div>
+  </div>
+<% end %>
