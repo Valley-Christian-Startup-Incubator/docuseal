@@ -4,6 +4,12 @@ VCS maintains this DocuSeal Community fork for [sign.valleychristianai.com](http
 
 See [the VCS feature and deployment guide](docs/VCS.md) for spreadsheet import, roles, reminders, formulas, SMS, template APIs, embedding, and Resend email delivery. The upstream README follows below. The AGPL license and DocuSeal attribution terms remain in effect.
 
+Fork documentation:
+
+- [Modifications and release history](docs/fork-changes.md) maps VCS changes to their source files and records deployment status.
+- [Internship packet setup](docs/internship.md) covers the three documents, signer routing, provisioning, and verification.
+- [Automatic releases and rollback](deploy/autodeploy.md) describes production operations on Big Mac.
+
 ---
 
 <h1 align="center" style="border-bottom: none">
