@@ -5,7 +5,7 @@ class SendSubmitterRemindersJob
   sidekiq_options retry: 3
 
   def perform
-    Submitter.where(completed_at: nil, declined_at: nil).where.not(sent_at: nil, email: [nil, '']).find_each do |submitter|
+    Submitter.where(completed_at: nil, declined_at: nil).where.not(sent_at: nil).where.not(email: [nil, '']).find_each do |submitter|
       submission = submitter.submission
       next if submission.completed_at? || submission.archived_at? || submission.expired? || submission.template&.archived_at?
       next if submitter.preferences['send_email'] == false || !Submitters::AuthorizedForForm.pass_submitters_order?(submitter)

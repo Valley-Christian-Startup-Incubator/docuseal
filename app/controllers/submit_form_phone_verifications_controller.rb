@@ -2,7 +2,7 @@
 class SubmitFormPhoneVerificationsController < ApplicationController
   skip_before_action :authenticate_user!
   skip_authorization_check
-  before_action { @submitter = Submitter.find_by!(slug: params[:submitter_slug]) }
+  before_action :load_active_submitter
 
   def create
     RateLimit.call("verify-phone-#{@submitter.id}", limit: 5, ttl: 1.minute, enabled: true)
@@ -25,5 +25,17 @@ class SubmitFormPhoneVerificationsController < ApplicationController
   end
 
   private
+
+  def load_active_submitter
+    @submitter = Submitter.find_by!(slug: params[:submitter_slug])
+    submission = @submitter.submission
+    required = @submitter.preferences['require_phone_2fa'] == true || submission.template&.preferences&.dig('require_phone_2fa') == true
+    return if required && !@submitter.completed_at? && !@submitter.declined_at? &&
+              !submission.completed_at? && !submission.archived_at? && !submission.expired? &&
+              !submission.template&.archived_at? && !@submitter.account.archived_at?
+
+    head :not_found
+  end
+
   def challenge_key = "#{@submitter.phone}:#{@submitter.slug}"
 end

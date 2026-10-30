@@ -7,6 +7,7 @@ class SendSubmitterInvitationSmsJob
   def perform(params)
     submitter = Submitter.find(params.fetch('submitter_id'))
     submission = submitter.submission
+    return if submitter.account.archived_at?
     return if submitter.completed_at? || submitter.declined_at? || submission.completed_at? || submission.archived_at? || submission.expired? || submission.template&.archived_at?
     return unless Submitters::AuthorizedForForm.pass_submitters_order?(submitter)
     return if submitter.phone.blank?

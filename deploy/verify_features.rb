@@ -79,14 +79,18 @@ config = AccountConfig.create!(account:, key: AccountConfig::SUBMITTER_REMINDERS
 recipient = template.submissions.first.submitters.first
 recipient.update!(sent_at: 2.hours.ago, preferences: { 'send_email' => true })
 EncryptedConfig.create!(account:, key: EncryptedConfig::EMAIL_SMTP_KEY, value: { 'from_email' => 'test@example.invalid' })
+unsent = template.submissions.last.submitters.first
+unsent.update!(sent_at: nil, preferences: { 'send_email' => true })
 SendSubmitterInvitationEmailJob.clear
 SendSubmitterRemindersJob.new.perform
-count = SendSubmitterInvitationEmailJob.jobs.size
+recipient_jobs = -> { SendSubmitterInvitationEmailJob.jobs.select { |job| job['args'][0]['submitter_id'] == recipient.id } }
+count = recipient_jobs.call.size
 SendSubmitterRemindersJob.new.perform
-verify.call('Reminder scan queues once across repeated runs') { count == 1 && SendSubmitterInvitationEmailJob.jobs.size == 1 }
+verify.call('Reminder scan queues once across repeated runs') { count == 1 && recipient_jobs.call.size == 1 }
+verify.call('Unsent recipients stay unsent and do not receive reminders') { unsent.reload.sent_at.nil? && SendSubmitterInvitationEmailJob.jobs.none? { |job| job['args'][0]['submitter_id'] == unsent.id } }
 recipient.update!(completed_at: Time.current)
 SendSubmitterRemindersJob.new.perform
-verify.call('Completed recipient receives no new reminders') { SendSubmitterInvitationEmailJob.jobs.size == 1 }
+verify.call('Completed recipient receives no new reminders') { recipient_jobs.call.size == 1 }
 
 pdf = Vcs::HtmlPdf.call('<h1>VCS HTML API verification</h1><p>{{Signature;type=signature;role=Signer}}</p>')
 verify.call('HTML renderer generates a PDF') { pdf.start_with?('%PDF') }
@@ -143,6 +147,9 @@ anonymous.post("/s/#{phone_recipient.slug}/phone_verification", params: { one_ti
 anonymous.get("/s/#{phone_recipient.slug}")
 verify.call('Valid phone OTP permits the signing form') { anonymous.response.status == 200 && anonymous.response.body.include?('<submission-form') }
 verify.call('Phone OTP cannot be reused') { !OtpChallenges.verify(code, value, purpose: 'form_phone_2fa') }
+phone_recipient.update!(completed_at: Time.current)
+anonymous.patch("/s/#{phone_recipient.slug}/phone_verification")
+verify.call('Completed documents cannot trigger verification SMS') { anonymous.response.status == 404 }
 
 viewer_session = ActionDispatch::Integration::Session.new(Rails.application)
 viewer_session.host! 'localhost'
