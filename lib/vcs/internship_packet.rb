@@ -32,6 +32,26 @@ module Vcs
       )
     end
 
+    def student?(submitter)
+      submitter.metadata['vcs_internship'] == true && submitter.metadata['vcs_role'] == 'student' &&
+        submitter.submission.template&.preferences&.dig('vcs_internship') == true
+    end
+
+    def parent_for(student)
+      return unless student?(student) && student.completed_at?
+      submission = student.submission
+      return if student.account.archived_at? || submission.archived_at? || submission.expired?
+      return if submission.template.archived_at? || student.declined_at?
+
+      parent = submission.submitters.find do |person|
+        person.metadata['vcs_internship'] == true && person.metadata['vcs_role'] == 'parent'
+      end
+      return unless parent && !parent.completed_at? && !parent.declined_at?
+      return unless Submitters.current_submitter_order?(parent)
+
+      parent
+    end
+
     def normalize(input)
       INPUT_KEYS.index_with { |key| input[key].to_s.strip.first(key.end_with?('_email') ? 254 : 160) }
                 .tap { |attrs| %w[student_email parent_email host_email].each { |key| attrs[key] = attrs[key].downcase } }

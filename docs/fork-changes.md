@@ -39,11 +39,12 @@ SSO is excluded. Trusted signing certificates still require a certificate from
 a trusted certificate authority. The new APIs support the documented requests;
 they do not promise complete compatibility with proprietary upstream Pro APIs.
 
-The internship route is deployed, but production intake remains inactive pending
-the authorized work permit issuer assignment. Its blank source documents stay
-in private storage. Git contains the field blueprint and provisioning code.
-The [internship status](internship.md#deployment-status) records the activation
-prerequisites and verification results.
+The internship route supports one packet per student and an optional same-device
+parent handoff with separate email verification. The operator confirmed Benjamin
+Mull for both school and work permit issuer responsibilities. Blank source
+documents stay in private storage. Git contains the field blueprint and
+provisioning code. The [internship guide](internship.md#deployment-status)
+records the signer assignment, activation requirements, and verification results.
 
 ## Release history
 
@@ -52,6 +53,7 @@ prerequisites and verification results.
 | 2026-10-30 | VCS branding, self-hosted features, Resend, embedding, and automatic releases | [PR #1](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/1), `e4e1ebaf` |
 | 2026-10-30 | Exclude compressed mutable manifests from retained browser assets | [PR #2](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/2), `72c7e0bf` |
 | 2026-10-30 | Internship portal, 58 mapped fields, private signer routing, and HTTP signing-order enforcement | [PR #3](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/3), `e4fa0792` |
+| 2026-10-30 | Optional same-device parent signing with separate email verification; confirmed school and issuer assignment | [PR #5](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/5) |
 
 ## Verification reference
 
