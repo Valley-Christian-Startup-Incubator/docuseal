@@ -52,9 +52,13 @@ def proxy_config(root, port):
                 'listen': ['127.0.0.1:3037'], 'routes': [
                     {'match': [{'path': ['/packs/*']}], 'handle': [
                         {'handler': 'file_server', 'root': str(root / 'assets')}]},
-                    {'handle': [{'handler': 'reverse_proxy', 'headers': {'request': {'set': {
+                    {'handle': [{'handler': 'reverse_proxy', 'headers': {'request': {
+                            'delete': ['Client-IP', 'X-Client-IP'], 'set': {
+                            'X-Forwarded-For': ['{http.vars.client_ip}'],
                             'X-Forwarded-Proto': ['https']}}}, 'upstreams': [
-                        {'dial': '127.0.0.1:' + str(port)}]}]}]}}}}}
+                        {'dial': '127.0.0.1:' + str(port)}]}]}],
+                'trusted_proxies': {'source': 'static', 'ranges': ['127.0.0.1/32', '::1/128']},
+                'client_ip_headers': ['CF-Connecting-IP'], 'trusted_proxies_strict': 1}}}}}
 
 
 class Deployer:

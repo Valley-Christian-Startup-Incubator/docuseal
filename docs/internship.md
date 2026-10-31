@@ -92,6 +92,9 @@ open the completed packet to download its **Audit Log** PDF or the **Download
 Event Log** CSV. Both staff views require account-scoped read access. The CSV
 contains event timestamps, signer identities, IP addresses, and user agents.
 It excludes form field values and protects spreadsheet cells from formula injection.
+The loopback proxy forwards Cloudflare's parsed client address, so new signing
+events record the client IP rather than the proxy's loopback address. Existing
+completed audits remain unchanged.
 
 ## Implementation
 
