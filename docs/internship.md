@@ -83,8 +83,15 @@ verification covered intake, validation, email OTP, and the real signing form.
 These checks used synthetic contacts and fake email jobs in isolated databases.
 
 The same-device handoff adds checks for CSRF, student verification, completion
-eligibility, parent selection, and the parent's own OTP. The expanded suite
-passes 46 checks with the school representative also acting as issuer.
+eligibility, parent selection, and the parent's own OTP. Staff-page and event-log
+export regression checks bring the suite to 51 checks with the school
+representative also acting as issuer.
+
+Participants download the three completed PDFs from their signing page. Staff
+open the completed packet to download its **Audit Log** PDF or the **Download
+Event Log** CSV. Both staff views require account-scoped read access. The CSV
+contains event timestamps, signer identities, IP addresses, and user agents.
+It excludes form field values and protects spreadsheet cells from formula injection.
 
 ## Implementation
 

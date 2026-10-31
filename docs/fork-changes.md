@@ -25,6 +25,7 @@ its Pro feature list describes upstream packaging. This reference and the
 | Template APIs | HTML, PDF, and DOCX conversion with positioned field tags | [HTML renderer](../lib/vcs/html_pdf.rb), [field tags](../lib/vcs/field_tags.rb), [API controllers](../app/controllers/api) |
 | Embedding | Signing forms and template-scoped editor tokens restricted to an exact origin | [EmbedTokens](../lib/vcs/embed_tokens.rb), [builder controller](../app/controllers/embed_builders_controller.rb), [authentication](../app/controllers/concerns/vcs_embed_authentication.rb) |
 | Internship intake | Account-free intake, email verification, private role-specific signatures, and repeated-value prefill | [Internship implementation and setup](internship.md) |
+| Event log export | Account-scoped CSV download with safe spreadsheet cells and explicit event metadata | [Event controller](../app/controllers/submission_events_controller.rb), [download menu](../app/views/submissions/_download_event_log.html.erb) |
 | Releases | Canonical-master watcher, immutable containers, retained assets, health checks, and rollback | [Release procedure](../deploy/autodeploy.md), [deployer](../deploy/autodeploy.py), [image](../deploy/Dockerfile.vcs) |
 
 ## Configuration limits
@@ -54,6 +55,7 @@ records the signer assignment, activation requirements, and verification results
 | 2026-10-30 | Exclude compressed mutable manifests from retained browser assets | [PR #2](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/2), `72c7e0bf` |
 | 2026-10-30 | Internship portal, 58 mapped fields, private signer routing, and HTTP signing-order enforcement | [PR #3](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/3), `e4fa0792` |
 | 2026-10-30 | Optional same-device parent signing with separate email verification; confirmed school and issuer assignment | [PR #5](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/5) |
+| 2026-10-30 | Repair completed-packet staff page and implement protected CSV event-log download, found during live internship E2E testing | [PR #6](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/6) |
 
 ## Verification reference
 
