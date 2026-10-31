@@ -27,6 +27,20 @@ The dedicated Caddy job `user/501/com.incubator.docuseal.proxy` listens only on
 to `https` for this HTTPS-only public service. No unrelated Caddy instance is used.
 The original Compose app remains running on port 3035 for rollback.
 
+Only the loopback Cloudflare tunnel is a trusted proxy. Caddy reads the client
+address from `CF-Connecting-IP`, replaces `X-Forwarded-For` with that parsed
+address, and removes `Client-IP` and `X-Client-IP`. Public forwarded-header
+values cannot override the address recorded by Rails. This follows
+[Caddy's trusted proxy configuration](https://caddyserver.com/docs/caddyfile/options#trusted-proxies).
+Direct loopback health probes without the Cloudflare header retain the loopback
+address. The proxy listener must remain loopback-only.
+
+When a release changes proxy generation, the running watcher finishes with its
+pinned code before installing the new watcher. Apply the new proxy configuration
+after that release with the installed `Deployer.switch(active)` under its shared
+lock. This uses Caddy's graceful `/load` route and preserves the active app.
+Existing completed audit files retain their original recorded addresses.
+
 ## Operations
 
 Run as `aimac` on `valley-big-mac`:

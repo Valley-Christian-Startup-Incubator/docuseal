@@ -123,7 +123,9 @@ class ProxyContinuity(unittest.TestCase):
                     entered.set()
                     finish.wait(10)
                 body = (self.headers.get('X-Forwarded-Proto', '') if self.path == '/forwarded'
-                        else self.server.label).encode()
+                        else json.dumps({key: self.headers.get(key) for key in
+                                         ['X-Forwarded-For', 'Client-IP', 'X-Client-IP']})
+                        if self.path == '/client-ip' else self.server.label).encode()
                 self.send_response(200)
                 self.send_header('Content-Length', str(len(body)))
                 self.end_headers()
@@ -170,6 +172,14 @@ class ProxyContinuity(unittest.TestCase):
                         pass
                     self.assertEqual(get('/'), b'new')
                     self.assertEqual(get('/forwarded'), b'https')
+                    for address in ['198.51.100.42', '2001:db8::42']:
+                        request = urllib.request.Request('http://127.0.0.1:%s/client-ip' % listener,
+                            headers={'CF-Connecting-IP': address, 'X-Forwarded-For': '203.0.113.99',
+                                     'Client-IP': '203.0.113.98', 'X-Client-IP': '203.0.113.97'})
+                        with urllib.request.urlopen(request, timeout=5) as response:
+                            headers = json.load(response)
+                        self.assertEqual(headers, {'X-Forwarded-For': address, 'Client-IP': None, 'X-Client-IP': None})
+                    self.assertEqual(json.loads(get('/client-ip'))['X-Forwarded-For'], '127.0.0.1')
                     self.assertEqual(get('/packs/old-client-hash.js'), b'retained')
                     finish.set()
                     self.assertEqual(slow.result(timeout=5), b'old')
