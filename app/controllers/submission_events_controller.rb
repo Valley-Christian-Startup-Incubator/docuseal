@@ -25,6 +25,20 @@ class SubmissionEventsController < ApplicationController
   load_and_authorize_resource :submission
 
   def index
-    render :index, layout: 'plain'
+    respond_to do |format|
+      format.html { render :index, layout: 'plain' }
+      format.csv do
+        authorize! :manage, :event_log_download
+        response.headers['Cache-Control'] = 'no-store, private'
+        csv = CSVSafe.generate do |rows|
+          rows << ['Event time (UTC)', 'Event', 'Signer name', 'Signer email', 'IP address', 'User agent']
+          @submission.submission_events.includes(:submitter).order(:event_timestamp, :id).each do |event|
+            rows << [event.event_timestamp.utc.iso8601(3), event.event_type, event.submitter&.name,
+                     event.data['email'].presence || event.submitter&.email, event.data['ip'], event.data['ua']]
+          end
+        end
+        send_data csv, filename: "submission-#{@submission.id}-events.csv", type: 'text/csv'
+      end
+    end
   end
 end

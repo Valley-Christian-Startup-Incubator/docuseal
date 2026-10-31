@@ -1,0 +1,10 @@
+<native-action data-label="<%= t('download_event_log') %>" data-icon="download">
+  <li>
+    <%= link_to submission_events_path(@submission, format: :csv), class: 'flex items-center', data: { turbo: false } do %>
+      <span class="flex items-center justify-center space-x-2">
+        <%= svg_icon('download', class: 'w-6 h-6 flex-shrink-0') %>
+        <span class="whitespace-nowrap"><%= t('download_event_log') %></span>
+      </span>
+    <% end %>
+  </li>
+</native-action>

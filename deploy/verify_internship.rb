@@ -159,6 +159,34 @@ verify.call('completed packet produces all three PDFs with six pages') do
   last.documents.size == 3 && last.documents.sum { |attachment| HexaPDF::Document.new(io: StringIO.new(attachment.download)).pages.count } == 6
 end
 verify.call('completed packet has an audit record') { submission.audit_trail.attached? }
+staff = ActionDispatch::Integration::Session.new(Rails.application)
+staff.host! 'localhost'
+staff.https!
+staff.get('/sign_in')
+staff_csrf = Nokogiri::HTML(staff.response.body).at_css('meta[name="csrf-token"]')['content']
+viewer = User.create!(account: template.account, email: "audit-viewer-#{suffix}@example.invalid",
+                      password: 'SyntheticViewer246!', role: User::VIEWER_ROLE, first_name: '=1+1', last_name: 'Test')
+staff.post('/sign_in', params: { user: { email: viewer.email, password: 'SyntheticViewer246!' }, authenticity_token: staff_csrf })
+staff.get("/submissions/#{submission.id}")
+verify.call('staff can open the completed packet and its audit log') { staff.response.status == 200 && staff.response.body.include?('Audit Log') }
+staff.get("/submissions/#{submission.id}/events.csv")
+events_csv = CSV.parse(staff.response.body, headers: true)
+verify.call('staff can download a scoped event log with all four completion events') do
+  staff.response.status == 200 && staff.response.media_type == 'text/csv' &&
+    events_csv.count { |row| row['Event'] == 'complete_form' } == roles.size
+end
+verify.call('event log disables caching and includes no document field values') do
+  staff.response.headers['Cache-Control'].include?('no-store') && !staff.response.body.include?('Synthetic Home address')
+end
+student.update!(name: '=1+1')
+staff.get("/submissions/#{submission.id}/events.csv")
+verify.call('event log protects spreadsheet cells from formula injection') do
+  CSV.parse(staff.response.body, headers: true).none? { |row| row['Signer name'] == '=1+1' }
+end
+other_account = Account.create!(name: 'Other audit account', locale: 'en', timezone: 'UTC')
+foreign_submission = Submission.create!(account: other_account, template:, source: 'link')
+staff.get("/submissions/#{foreign_submission.id}/events.csv")
+verify.call('event log refuses cross-account exports') { staff.response.status != 200 && staff.response.media_type != 'text/csv' }
 outsider = ActionDispatch::Integration::Session.new(Rails.application)
 outsider.host! 'localhost'
 outsider.https!

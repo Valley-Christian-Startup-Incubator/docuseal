@@ -25,6 +25,7 @@ its Pro feature list describes upstream packaging. This reference and the
 | Template APIs | HTML, PDF, and DOCX conversion with positioned field tags | [HTML renderer](../lib/vcs/html_pdf.rb), [field tags](../lib/vcs/field_tags.rb), [API controllers](../app/controllers/api) |
 | Embedding | Signing forms and template-scoped editor tokens restricted to an exact origin | [EmbedTokens](../lib/vcs/embed_tokens.rb), [builder controller](../app/controllers/embed_builders_controller.rb), [authentication](../app/controllers/concerns/vcs_embed_authentication.rb) |
 | Internship intake | Account-free intake, email verification, private role-specific signatures, and repeated-value prefill | [Internship implementation and setup](internship.md) |
+| Event log export | Account-scoped CSV download with safe spreadsheet cells and explicit event metadata | [Event controller](../app/controllers/submission_events_controller.rb), [download menu](../app/views/submissions/_download_event_log.html.erb) |
 | Releases | Canonical-master watcher, immutable containers, retained assets, health checks, and rollback | [Release procedure](../deploy/autodeploy.md), [deployer](../deploy/autodeploy.py), [image](../deploy/Dockerfile.vcs) |
 
 ## Configuration limits
