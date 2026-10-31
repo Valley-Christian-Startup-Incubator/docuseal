@@ -56,6 +56,7 @@ records the signer assignment, activation requirements, and verification results
 | 2026-10-30 | Internship portal, 58 mapped fields, private signer routing, and HTTP signing-order enforcement | [PR #3](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/3), `e4fa0792` |
 | 2026-10-30 | Optional same-device parent signing with separate email verification; confirmed school and issuer assignment | [PR #5](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/5) |
 | 2026-10-30 | Repair completed-packet staff page and implement protected CSV event-log download, found during live internship E2E testing | [PR #6](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/6) |
+| 2026-10-30 | Preserve Cloudflare client IPs in signing audits and reject forged forwarded headers | [PR #7](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/7) |
 
 ## Verification reference
 

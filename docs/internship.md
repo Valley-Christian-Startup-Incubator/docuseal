@@ -96,6 +96,29 @@ The loopback proxy forwards Cloudflare's parsed client address, so new signing
 events record the client IP rather than the proxy's loopback address. Existing
 completed audits remain unchanged.
 
+## Live verification on October 30, 2026
+
+A fresh production test packet completed every signing step in Chromium with
+synthetic identities and controlled receiving addresses. Eight actual emails
+arrived: four verification codes, three signing invitations, and one completion
+notification. The parent used the same-device handoff. School signing waited
+for both parent and host.
+
+The browser downloaded three completed PDFs totaling six pages. Staff downloaded
+the six-page audit PDF and event CSV with 25 events and four ordered completions.
+All signer IPs matched Cloudflare's observed client address, including requests
+with forged forwarding headers. Anonymous completed-document access returned 404.
+Independent OpenSSL CMS checks verified the integrity of all four PDFs. These
+checks do not assert public trust in the existing DocuSeal certificate chain.
+
+The test found and verified repairs for the completed staff-page crash
+([PR #6](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/6))
+and loopback IPs in audits
+([PR #7](https://github.com/Valley-Christian-Startup-Incubator/docuseal/pull/7)).
+Both test packets were archived and temporary viewer accounts disabled. The real
+school routing was unchanged, and test notifications went only to test inboxes.
+Signed test outputs and email bodies remain outside this public repository.
+
 ## Implementation
 
 | Responsibility | Source |
